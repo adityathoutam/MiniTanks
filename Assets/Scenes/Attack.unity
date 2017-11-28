@@ -1310,7 +1310,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1446474850}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 384.5, y: 159.5, z: 0}
+  m_LocalPosition: {x: 301.5, y: 135.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 754816531}
@@ -1755,8 +1755,6 @@ MonoBehaviour:
   camera1: {fileID: 1496160130}
   trajectoryPointPrefab: {fileID: 1840074889873050, guid: 763ba52865ca3c24c997815a63a05076,
     type: 2}
-  player1AsTarget: {fileID: 465749287}
-  player2AsTarget: {fileID: 710887526}
   angle: 0
   angleText: {fileID: 1772826548}
   velocity: 0
@@ -1904,7 +1902,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 0af64974daafe7549b1c5008895989c2, type: 2}
+  - {fileID: 2100000, guid: cf459e537400a194e95868c5905ac1b1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
