@@ -6,7 +6,7 @@ public class CircularField : MonoBehaviour
 {
 
     public GameObject Enemy;
-
+    public int speed = 5;
     GameObject go;
     
     bool firstturn, secondturn, thirdturn = false;
@@ -46,7 +46,7 @@ public class CircularField : MonoBehaviour
         float angle = Mathf.Atan2(directionVector.x, directionVector.y) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.AngleAxis(-angle, Vector3.forward);
         go.transform.rotation = Quaternion.Lerp(go.transform.rotation, rotation, 10 * Time.deltaTime);
-        go.transform.Translate(Vector3.up * 10 * Time.deltaTime, Space.Self);
+        go.transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
 
 
         if (Vector3.Distance(go.transform.position, secondpoint) < 0.2f)

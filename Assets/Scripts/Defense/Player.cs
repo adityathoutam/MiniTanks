@@ -13,26 +13,26 @@ public class Player : MonoBehaviour
    
      void Start()
     {
-       
         this.transform.position += VJHandler.InputDirection * moveSpeed;
     }
    
     void Update()
     {
-        this.transform.position += VJHandler.InputDirection * moveSpeed;
         
+        if(VJHandler.InputDirection!=Vector3.zero)
+        {
+            this.transform.position += VJHandler.InputDirection * moveSpeed;
+            float angle = Mathf.Atan2(VJHandler.InputDirection.y, VJHandler.InputDirection.x) * Mathf.Rad2Deg;
+            this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
 
     }
-
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.tag=="Enemy")
         {
-
             SceneManager.LoadScene("Attack");
-
-           
         }
         
     }
