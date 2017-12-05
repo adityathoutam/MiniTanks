@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 118389833}
   - component: {fileID: 118389832}
   m_Layer: 0
-  m_Name: BlueFloor
+  m_Name: PinkFloor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -677,7 +677,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1310252550}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 372.5, y: -175.5, z: 0}
+  m_LocalPosition: {x: 219.5, y: -135.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1567002712}
@@ -1173,7 +1173,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2144234233}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 453.5, y: 175.5, z: 0}
+  m_LocalPosition: {x: 300.5, y: 135.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1310252551}

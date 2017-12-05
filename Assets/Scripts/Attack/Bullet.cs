@@ -130,9 +130,9 @@ public class Bullet : MonoBehaviour
 
         #region Ground
        
-            if (CheckCollider.LeftGround == true)
+         /*   if (CheckCollider.LeftGround == true)
             {
-            Debug.Log("yoooooo");
+                 Debug.Log("yoooooo");
 
                 ball.transform.position = P1chance;
                 // Velocity();
@@ -140,19 +140,15 @@ public class Bullet : MonoBehaviour
                 MoveWithPlayer2();
 
             }
-        
+        */
        
 
             if (CheckCollider.RightGround == true)
             {
 
-            Debug.Log("yoooooo");
-
-            ball.transform.position = P2chance;
-                //Velocity();
-                CameraInterpole(!AmIPlayer1);
+                ball.transform.position = P1chance;
+                
                 MoveWithPlayer1();
-
             }
             
         
@@ -164,7 +160,7 @@ public class Bullet : MonoBehaviour
             
             if (CheckCollider.player1bool == true)
             {
-                Debug.Log("chutiyapa");
+                
                 ball.transform.position = P1chance;
 
                 MoveWithPlayer2();
@@ -177,7 +173,7 @@ public class Bullet : MonoBehaviour
             
             if (CheckCollider.player2bool == true)
             {
-                Debug.Log("chutiyapa");
+                
                 
                 ball.transform.position = P2chance;
                
