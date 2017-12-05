@@ -13,7 +13,10 @@ public class CircularField : MonoBehaviour
 
     float ab=15, ca=20;
     //float bc = 25;
-    
+    public Transform firstTriPoint;
+    public Transform SecondTriPoint;
+    public Transform ThirdTriPoint;
+
     Vector3 firstpoint;
     Vector3 secondpoint;
     Vector3 thirdpoint;
@@ -22,18 +25,19 @@ public class CircularField : MonoBehaviour
 
     void Start()
     { 
-        go = Instantiate(Enemy);
-        
+     
+        go = Instantiate(Enemy, firstTriPoint.position, Quaternion.identity);
+
         firstturn = true;
 
         firstpoint = go.transform.position;
 
-        secondpoint = firstpoint;
-        secondpoint.x = firstpoint.x + ab;
-        secpoint = secondpoint;
+        secondpoint = SecondTriPoint.position;
+       
+        secpoint = SecondTriPoint.position;
 
-        thirdpoint.x = firstpoint.x;
-        thirdpoint.y = firstpoint.y - ca; 
+        thirdpoint = ThirdTriPoint.position;
+        
     }
 
     

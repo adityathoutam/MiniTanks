@@ -7,7 +7,8 @@ public class TriangleVertical : MonoBehaviour
     public GameObject Enemy;
     private int speed = 15;
     GameObject go;
-    bool spawn;
+    public Transform firspoint;
+    public Transform secondpoint;
     Vector3 spawnPoint, uppoint, downpoint,target;
     private float t = 0;
 
@@ -16,27 +17,14 @@ public class TriangleVertical : MonoBehaviour
          VerticalTriangleStart();
     }
 
-    void OnCollisionEnter2D(Collision2D CollisionTriangle)
-    {
-        Debug.Log("Touched");
-        Time.timeScale = 0;
-    }
+   
 
     void VerticalTriangleStart()
     {
-        go = Instantiate(Enemy);
-
-        spawn = true;
-
+        go = Instantiate(Enemy,firspoint.position,Quaternion.identity);
         spawnPoint = go.transform.position;
-
-
-        uppoint = spawnPoint;
-        uppoint.y = Camera.main.orthographicSize - 10f;
-
-
-        downpoint.x = spawnPoint.x;
-        downpoint.y = -Camera.main.orthographicSize + 10f;
+        uppoint = firspoint.position;
+        downpoint =secondpoint.position;
         target = downpoint;
 
 
@@ -54,7 +42,7 @@ public class TriangleVertical : MonoBehaviour
         t += 0.01f;
         if (t > 0.5f)
             t = 0;
-        Debug.Log(t);
+
 
         go.transform.rotation = Quaternion.Lerp(go.transform.rotation, rotation, t);
 
