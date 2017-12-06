@@ -6,21 +6,15 @@ public class AIScript : MonoBehaviour
     private List<GameObject> _triangles = new List<GameObject>();
     private List<GameObject> _circles   = new List<GameObject>();
 
-    private List<GameObject> _blueMap   = new List<GameObject>();
-    private List<GameObject> _greenMap  = new List<GameObject>();
-    private List<GameObject> _brownMap  = new List<GameObject>();
-    private List<GameObject> _orangeMap = new List<GameObject>();
-    private List<GameObject> _pinkMap   = new List<GameObject>();
+    public static List<Transform> _greenMapCircle1 = new List<Transform>();
+    public static List<Transform> _greenMapTriangle1 = new List<Transform>();
+
 
     public GameObject TriPrefab;
     public GameObject CirclePrefab;
 
-    public Transform point1;
-    public Transform point2;
-    public Transform point3;
-   
 
-#region CreatingInstances
+    #region CreatingInstances
     private void CreateTriangleInstances(int instanceCount)
     {
             for (int i = 0; i < instanceCount; ++i)
@@ -48,9 +42,7 @@ public class AIScript : MonoBehaviour
     private void Update()
     {
 
-        CircleMove(_circles[0], point1, point2, point3);
-       // TriangleMove(_triangles[0], point1, point2);
-
+        Debug.Log(GreenMapPoints._greenMapCircle1[0].position);
     }
 #region MovingEnemies
     void CircleMove(GameObject CircleInstance, Transform firstTriPoint, Transform SecondTriPoint, Transform ThirdTriPoint)

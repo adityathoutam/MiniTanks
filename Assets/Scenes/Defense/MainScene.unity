@@ -449,90 +449,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
---- !u!1 &403552978
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 403552979}
-  m_Layer: 0
-  m_Name: GameObject (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &403552979
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 403552978}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.37, y: -0.76, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1972166046}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &756580874
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 756580875}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &756580875
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 756580874}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.64, y: -0.09, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1972166046}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &901440683
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 901440684}
-  m_Layer: 0
-  m_Name: GameObject (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &901440684
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 901440683}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.48, y: 1.21, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1972166046}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1096467821
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,6 +531,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1142115131}
   - component: {fileID: 1142115132}
+  - component: {fileID: 1142115133}
   m_Layer: 0
   m_Name: blueMap
   m_TagString: Untagged
@@ -633,7 +550,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1611357672}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1142115132
 SpriteRenderer:
@@ -679,6 +596,22 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!114 &1142115133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1142115130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fc2413fed2cea94288f942097209ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Triangle1_Point1: {fileID: 0}
+  Triangle1_Point2: {fileID: 0}
+  Circle1_Point1: {fileID: 0}
+  Circle1_Point2: {fileID: 0}
+  Circle1_Point3: {fileID: 0}
 --- !u!1 &1276540391
 GameObject:
   m_ObjectHideFlags: 0
@@ -731,6 +664,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1330795183}
   - component: {fileID: 1330795184}
+  - component: {fileID: 1330795185}
   m_Layer: 0
   m_Name: BrownMap
   m_TagString: Untagged
@@ -795,6 +729,22 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!114 &1330795185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1330795182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dd78d6109eab044faafe01343b52bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Triangle1_Point1: {fileID: 0}
+  Triangle1_Point2: {fileID: 0}
+  Circle1_Point1: {fileID: 0}
+  Circle1_Point2: {fileID: 0}
+  Circle1_Point3: {fileID: 0}
 --- !u!1 &1352366628
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,6 +754,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1352366629}
   - component: {fileID: 1352366630}
+  - component: {fileID: 1352366631}
   m_Layer: 0
   m_Name: OrangeMap
   m_TagString: Untagged
@@ -818,11 +769,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1352366628}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.6, y: -4.4, z: 0.1}
+  m_LocalPosition: {x: -1.6000004, y: -4.4, z: 0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1611357672}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1352366630
 SpriteRenderer:
@@ -868,6 +819,22 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!114 &1352366631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1352366628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f953c25135423f4cbf803ee42b40374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Triangle1_Point1: {fileID: 0}
+  Triangle1_Point2: {fileID: 0}
+  Circle1_Point1: {fileID: 0}
+  Circle1_Point2: {fileID: 0}
+  Circle1_Point3: {fileID: 0}
 --- !u!1 &1596155210
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,11 +933,11 @@ Transform:
   m_LocalPosition: {x: 1.78, y: 1.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1972166046}
-  - {fileID: 1330795183}
-  - {fileID: 2032038727}
   - {fileID: 1142115131}
+  - {fileID: 1330795183}
+  - {fileID: 1972166046}
   - {fileID: 1352366629}
+  - {fileID: 2032038727}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1056,6 +1023,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1972166046}
   - component: {fileID: 1972166047}
+  - component: {fileID: 1972166048}
   m_Layer: 0
   m_Name: GreenMap
   m_TagString: Untagged
@@ -1072,12 +1040,9 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 756580875}
-  - {fileID: 901440684}
-  - {fileID: 403552979}
+  m_Children: []
   m_Father: {fileID: 1611357672}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1972166047
 SpriteRenderer:
@@ -1123,6 +1088,22 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!114 &1972166048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1972166045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d814c9d1279434d4b88f3471e488c249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Triangle1_Point1: {fileID: 0}
+  Triangle1_Point2: {fileID: 0}
+  Circle1_Point1: {fileID: 0}
+  Circle1_Point2: {fileID: 0}
+  Circle1_Point3: {fileID: 0}
 --- !u!1 &1986074688
 GameObject:
   m_ObjectHideFlags: 0
@@ -1194,6 +1175,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2032038727}
   - component: {fileID: 2032038728}
+  - component: {fileID: 2032038729}
   m_Layer: 0
   m_Name: PinkMap
   m_TagString: Untagged
@@ -1212,7 +1194,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1611357672}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2032038728
 SpriteRenderer:
@@ -1258,6 +1240,22 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!114 &2032038729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2032038726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03173108a04f52248bc602678bdc0a4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Triangle1_Point1: {fileID: 0}
+  Triangle1_Point2: {fileID: 0}
+  Circle1_Point1: {fileID: 0}
+  Circle1_Point2: {fileID: 0}
+  Circle1_Point3: {fileID: 0}
 --- !u!1 &2102685214
 GameObject:
   m_ObjectHideFlags: 0
