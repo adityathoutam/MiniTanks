@@ -18,6 +18,7 @@ public class Bullet : MonoBehaviour
 
     public GameObject BallPrefab;
     public GameObject ball;
+    GameObject trajectorydots;
 
 
     private float power = 25f;
@@ -27,27 +28,23 @@ public class Bullet : MonoBehaviour
     public GameObject camera1;
     public GameObject trajectoryPointPrefab;
 
-
-
-
-
     private bool NewGame = false;
     private bool NewGameCam = false;
     private bool Moving = false;
-   
+
+    private bool isFired = false;
+    private int chances = 3;
+    private bool ReadyToShoot = false;
+
 
     void Awake()
     {
         CreateBall();
-        DisplayTrajectory();
-
-       
+   
     }
     private void Start()
     {
-        NewGame = true;
-       
-        
+        NewGame = true;  
     }
     #region BALL
     private void CreateBall()
@@ -58,6 +55,9 @@ public class Bullet : MonoBehaviour
     private void Fire(Vector3 directionVector)
     {
         ball.GetComponent<Rigidbody>().AddForce(directionVector * power, ForceMode.Impulse);
+        isFired = true;
+        HideTrajectory();
+        CameraInterpolePlayerToEnemy();
     }
 
 
@@ -73,6 +73,7 @@ public class Bullet : MonoBehaviour
         EventRelay.OnEvent -= HandleEvent;
     }
 
+    
     void HandleEvent(EVENT_TYPE type, System.Object data)
     {
         if (eventsList.Contains(type))
@@ -80,7 +81,9 @@ public class Bullet : MonoBehaviour
             switch (type)
             {
                 case EVENT_TYPE.BEGAN:
-
+                    
+                        DisplayTrajectory();
+                    
                     break;
 
                 case EVENT_TYPE.MOVED:
@@ -90,25 +93,22 @@ public class Bullet : MonoBehaviour
 
                     break;
                 case EVENT_TYPE.ENDED:
-
-                    Fire((Vector3)data);
-					CameraInterpolePlayerToEnemy();
-                   
+                    
+                        Fire((Vector3)data);
+                        isFired = true;
+                    
 
                     break;
             }
         }
     }
     #endregion
-    private void FixedUpdate()
-    {
-        
-        
-    }
+
     private void Update()
     {
+        
         StartingCameraMovement();
-
+        
 
         if(Input.GetKey(KeyCode.Space))
         {
@@ -119,17 +119,30 @@ public class Bullet : MonoBehaviour
 
         if (ball.transform.position.x > 90 || ball.transform.position.y > 50)
         {
+            ball.GetComponent<Rigidbody>().isKinematic = true;
+            MoveWithPlayer1();
+            chances--;
+            Debug.Log("ONLY " + chances + " CHANCE/CHANCES LEFT");
 
-            OutOfBoundsPanel.SetActive(true);
+            CameraInterpoleEnemyToPlayer();
+            isFired = true;
+
         }
 
         if (ball.transform.position.x < -90 || ball.transform.position.y > 50)
         {
-
-            OutOfBoundsPanel.SetActive(true);
+            ball.GetComponent<Rigidbody>().isKinematic = true;
+            MoveWithPlayer1();
+            chances--;
+            Debug.Log("ONLY " + chances + " CHANCE/CHANCES LEFT");
+             
+                CameraInterpoleEnemyToPlayer();
+            isFired = true;
+               
         }
         #endregion PLAYER1_THROWS_OUT_OF_BOUNDS_RESET_TO_PLAYER1
-
+        if (chances == -1)
+            Debug.Log("OUT OF CHANCES");
     }
 
     #region CAMERA_PLAYER_CAMERA
@@ -189,11 +202,19 @@ public class Bullet : MonoBehaviour
 
         for (int i = 0; i < numberOfPoints; i++)
         {
-            GameObject go = (GameObject)Instantiate(trajectoryPointPrefab);
+            trajectorydots = (GameObject)Instantiate(trajectoryPointPrefab);
 
-            trajectoryList.Add(go);
+            trajectoryList.Add(trajectorydots);
+            trajectoryList[i].SetActive(true);
         }
-
+        
+    }
+    void HideTrajectory()
+    {
+        for (int i = 0; i < numberOfPoints; i++)
+        {
+            trajectoryList[i].SetActive(false);
+        }
     }
     #endregion TRAJECTORY
 
@@ -220,7 +241,12 @@ public class Bullet : MonoBehaviour
 
     void MoveWithPlayer1()
     {
+        
+        ball.transform.position = new Vector3 (player1.transform.position.x,player1.transform.position.y + 2.3f, player1.transform.position.z);
+        ball.GetComponent<Rigidbody>().isKinematic = false;
         ball.transform.parent = player1.transform;
+        
+       
         if (Vector3.Distance(ball.transform.position, player1.transform.position) > 5)
         {
             ball.transform.parent = null;
