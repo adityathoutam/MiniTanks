@@ -6,14 +6,15 @@ using UnityEditor.SceneManagement;
 
 public class Bullet : MonoBehaviour
 {
+    public List<EVENT_TYPE> eventsList;
+    private List<GameObject> trajectoryList;
+
     public GameObject OutOfBoundsPanel;
     public GameObject WinPanel;
 
-    public static bool PLAYER1TURN;
-    public static bool PLAYER2TURN;
-
     public GameObject player1;
     public GameObject player2;
+
 
     public GameObject BallPrefab;
     public GameObject ball;
@@ -26,29 +27,27 @@ public class Bullet : MonoBehaviour
     public GameObject camera1;
     public GameObject trajectoryPointPrefab;
 
-    public float angle;
-    public Text angleText;
-    public float velocity;
-    public Text velocityText;
 
-    Vector3 P2chance;
-    Vector3 P1chance;
 
-    public List<EVENT_TYPE> eventsList;
 
-    private List<GameObject> trajectoryList;
 
-    private float actualTime = 0f;
-    private float distance = 0f;
-    private bool AmIPlayer1;
+    private bool NewGame = false;
+    private bool NewGameCam = false;
+    private bool Moving = false;
+   
 
     void Awake()
     {
         CreateBall();
         DisplayTrajectory();
 
-        PLAYER1TURN = true;
-        PLAYER2TURN = false;
+       
+    }
+    private void Start()
+    {
+        NewGame = true;
+       
+        
     }
     #region BALL
     private void CreateBall()
@@ -59,7 +58,6 @@ public class Bullet : MonoBehaviour
     private void Fire(Vector3 directionVector)
     {
         ball.GetComponent<Rigidbody>().AddForce(directionVector * power, ForceMode.Impulse);
-       // Debug.Log("fired");
     }
 
 
@@ -94,24 +92,28 @@ public class Bullet : MonoBehaviour
                 case EVENT_TYPE.ENDED:
 
                     Fire((Vector3)data);
-                    Angle((Vector3)data);
+					CameraInterpolePlayerToEnemy();
+                   
 
                     break;
             }
         }
     }
     #endregion
-
-    public void Update()
+    private void FixedUpdate()
     {
-        P2chance = player2.transform.position;
-        P2chance.y = player2.transform.position.y + 2.3f;
+        
+        
+    }
+    private void Update()
+    {
+        StartingCameraMovement();
 
-        P1chance = player1.transform.position;
-        P1chance.y = player1.transform.position.y + 2.3f;
 
-        Distance();
-        MoveWithPlayer1();
+        if(Input.GetKey(KeyCode.Space))
+        {
+            NewGame = true;
+        }
 
         #region PLAYER1_THROWS_OUT_OF_BOUNDS
 
@@ -128,100 +130,32 @@ public class Bullet : MonoBehaviour
         }
         #endregion PLAYER1_THROWS_OUT_OF_BOUNDS_RESET_TO_PLAYER1
 
-        #region Ground
-       
-         /*   if (CheckCollider.LeftGround == true)
-            {
-                 Debug.Log("yoooooo");
-
-                ball.transform.position = P1chance;
-                // Velocity();
-                CameraInterpole(AmIPlayer1);
-                MoveWithPlayer2();
-
-            }
-        */
-       
-
-            if (CheckCollider.RightGround == true)
-            {
-
-                ball.transform.position = P1chance;
-                
-                MoveWithPlayer1();
-            }
-            
-        
-        #endregion Ground        
-
-        #region PLAYERTURN
-        if (PLAYER2TURN == true)
-        {
-            
-            if (CheckCollider.player1bool == true)
-            {
-                
-                ball.transform.position = P1chance;
-
-                MoveWithPlayer2();
-            }
-            
-        }
-        //PLAYER2TURN = false;
-        if (PLAYER1TURN == true)
-        {
-            
-            if (CheckCollider.player2bool == true)
-            {
-                
-                
-                ball.transform.position = P2chance;
-               
-
-                MoveWithPlayer1();
-            }
-            
-            //  PLAYER1TURN = false;
-        }
-        
-        #endregion PLAYERTURN
-
     }
-    #region Reset
-    public void Reset()
-    {
-        EditorSceneManager.LoadScene("Game");
-    }
-    #endregion Reset
 
     #region CAMERA_PLAYER_CAMERA
 
-    void CameraInterpole(bool AmIPlayer1)
+    void CameraInterpolePlayerToEnemy()
     {
-        if (!AmIPlayer1)
-        {
-            StartCoroutine(Transition(player1.transform.position, player2.transform.position));
-        }
-        if (AmIPlayer1)
-        {
-            StartCoroutine(Transition(player2.transform.position, player1.transform.position));
-        }
+         StartCoroutine(Transition(player1.transform.position, player2.transform.position));   
+    }
+    void CameraInterpoleEnemyToPlayer()
+    {
+        StartCoroutine(Transition(player2.transform.position, player1.transform.position));
     }
     IEnumerator Transition(Vector3 startpos, Vector3 endpos)
     {
-
+        Moving = true;
         float t = 0f;
         while (t <= 1.5f)
         {
             t += Time.deltaTime * (Time.timeScale / transitionDuration);
             Vector3 temp = Vector3.Lerp(startpos, endpos, t);
-            camera1.transform.position = new Vector3(temp.x, temp.y, camera1.transform.position.z);
-
+           camera1.transform.position = new Vector3(temp.x, temp.y, camera1.transform.position.z);
             yield return null;
-            actualTime += Time.deltaTime;
-        }
 
-       // Debug.Log("STOPPED");
+        }
+        Moving = false;
+        
     }
     #endregion CAMERA_PLAYER_CAMERA
 
@@ -263,46 +197,38 @@ public class Bullet : MonoBehaviour
     }
     #endregion TRAJECTORY
 
-    #region Velocity_Angle_Distance_Calculation
-
-    void Velocity()
+    void StartingCameraMovement()
     {
-        velocity = distance / actualTime;
+        if (NewGame == true)
+        {
 
-        velocityText.text = "Velocity: " + velocity.ToString();
-    }
-    void Angle(Vector3 pVelocity)
-    {
-        angle = Mathf.Rad2Deg * (Mathf.Atan2(pVelocity.y, pVelocity.x));
-        angleText.text = "Angle: " + angle.ToString();
-    }
-    void Distance()
-    {
-        distance = player2.transform.position.x - player1.transform.position.x;
+            CameraInterpolePlayerToEnemy();
+
+            NewGame = false;
+            NewGameCam = true;
+        }
+
+        if (NewGameCam == true && Moving == false)
+        {
+            
+            CameraInterpoleEnemyToPlayer();
+            Moving = true;
+            NewGameCam = false;
+        }
     }
 
-    #endregion
 
-    #region MoveWithPlayers
     void MoveWithPlayer1()
     {
         ball.transform.parent = player1.transform;
         if (Vector3.Distance(ball.transform.position, player1.transform.position) > 5)
         {
             ball.transform.parent = null;
-
-            CameraInterpole(AmIPlayer1);
+            CameraInterpolePlayerToEnemy();
+           
         }
     }
-    void MoveWithPlayer2()
-    {
-        ball.transform.parent = player2.transform;
-        if (Vector3.Distance(ball.transform.position, player2.transform.position) > 5)
-        {
-            ball.transform.parent = null;
-            CameraInterpole(!AmIPlayer1);
-        }
-    }
-    #endregion
+   
+  
 
 }
