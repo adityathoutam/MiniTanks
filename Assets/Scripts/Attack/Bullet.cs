@@ -8,12 +8,15 @@ public class Bullet : MonoBehaviour
 {
     public List<EVENT_TYPE> eventsList;
     private List<GameObject> trajectoryList;
+   
+
 
     public GameObject OutOfBoundsPanel;
     public GameObject WinPanel;
 
-    public GameObject player1;
-    public GameObject player2;
+    public GameObject Player;
+    public GameObject Enemy;
+    public GameObject bezierpoint;
 
 
     public GameObject BallPrefab;
@@ -36,15 +39,14 @@ public class Bullet : MonoBehaviour
     private int chances = 3;
     private bool ReadyToShoot = false;
 
-
     void Awake()
     {
         CreateBall();
-   
     }
     private void Start()
     {
         NewGame = true;  
+
     }
     #region BALL
     private void CreateBall()
@@ -106,7 +108,10 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        
+        // EnemyDisplayTrajectory();
+        DisplayTrajectory();
+        EnemyTrajectory();
+       
         StartingCameraMovement();
         
 
@@ -149,11 +154,11 @@ public class Bullet : MonoBehaviour
 
     void CameraInterpolePlayerToEnemy()
     {
-         StartCoroutine(Transition(player1.transform.position, player2.transform.position));   
+         StartCoroutine(Transition(Player.transform.position, Enemy.transform.position));   
     }
     void CameraInterpoleEnemyToPlayer()
     {
-        StartCoroutine(Transition(player2.transform.position, player1.transform.position));
+        StartCoroutine(Transition(Enemy.transform.position, Player.transform.position));
     }
     IEnumerator Transition(Vector3 startpos, Vector3 endpos)
     {
@@ -209,6 +214,7 @@ public class Bullet : MonoBehaviour
         }
         
     }
+    
     void HideTrajectory()
     {
         for (int i = 0; i < numberOfPoints; i++)
@@ -218,6 +224,44 @@ public class Bullet : MonoBehaviour
     }
     #endregion TRAJECTORY
 
+    
+    void EnemyTrajectory()
+    {
+        for(int i=1;i<numberOfPoints+1;i++)
+        {
+            float t = i / (float)numberOfPoints;
+
+            Vector3 pos= GetQuadraticCurvePoint(Player.transform.position, bezierpoint.transform.position, Enemy.transform.position, t);
+            trajectoryList[i-1].transform.position = pos;
+        }
+        
+    }
+
+    public static Vector3 GetQuadraticCurvePoint(Vector3 p1, Vector3 p2, Vector3 p3, float t)
+    {
+        t = Mathf.Clamp01(t);
+
+        Vector3 part1 = Mathf.Pow(1 - t, 2) * p1;
+        Vector3 part2 = 2 * (1 - t) * t * p2;
+        Vector3 part3 = Mathf.Pow(t, 2) * p3;
+
+        return part1 + part2 + part3;
+    }
+    void MoveWithPlayer1()
+    {
+
+        ball.transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y + 2.3f, Player.transform.position.z);
+        ball.GetComponent<Rigidbody>().isKinematic = false;
+        ball.transform.parent = Player.transform;
+
+
+        if (Vector3.Distance(ball.transform.position, Player.transform.position) > 5)
+        {
+            ball.transform.parent = null;
+            CameraInterpolePlayerToEnemy();
+
+        }
+    }
     void StartingCameraMovement()
     {
         if (NewGame == true)
@@ -231,30 +275,12 @@ public class Bullet : MonoBehaviour
 
         if (NewGameCam == true && Moving == false)
         {
-            
+
             CameraInterpoleEnemyToPlayer();
             Moving = true;
             NewGameCam = false;
         }
     }
 
-
-    void MoveWithPlayer1()
-    {
-        
-        ball.transform.position = new Vector3 (player1.transform.position.x,player1.transform.position.y + 2.3f, player1.transform.position.z);
-        ball.GetComponent<Rigidbody>().isKinematic = false;
-        ball.transform.parent = player1.transform;
-        
-       
-        if (Vector3.Distance(ball.transform.position, player1.transform.position) > 5)
-        {
-            ball.transform.parent = null;
-            CameraInterpolePlayerToEnemy();
-           
-        }
-    }
-   
-  
 
 }
