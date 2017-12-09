@@ -190,5 +190,40 @@ public class AIScript : MonoBehaviour
         }
 
     }
+    #endregion
+
+
+#region EnemyStatus
+    void EnemyStatus(string name,bool status)
+    {
+        if (name == "Brown")
+        {
+            BrownCircle1.SetActive(status);
+            BrownTriangle1.SetActive(status);
+        }
+        if (name == "Green")
+        {
+            GreenCircle1.SetActive(status);
+            GreenTriangle1.SetActive(status);
+        }
+        if (name == "Pink")
+        {
+            PinkCircle1.SetActive(status);
+            PinkTriangle1.SetActive(status);
+        }
+        if (name == "Orange")
+        {
+            OrangeCircle1.SetActive(status);
+            OrangeTriangle1.SetActive(status);
+        }
+        if (name == "Blue")
+        {
+            BlueCircle1.SetActive(status);
+            BlueTriangle1.SetActive(status);
+        }
+    }
 #endregion
+
+
+
 }
