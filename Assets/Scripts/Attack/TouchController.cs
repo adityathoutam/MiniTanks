@@ -10,14 +10,21 @@ public class TouchController : MonoBehaviour
 
     private Vector3 directionVector;
     private Vector3 FinaldirectionVector;
+    public static bool PlayerReadyToShoot = false; 
 
 	void Update ()
+    {
+
+        if (PlayerReadyToShoot == true)
+            UserInput();
+    }
+    void UserInput()
     {
         if (Input.GetMouseButtonDown(0))
         {
             startPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            EventRelay.RaiseEvent(EVENT_TYPE.BEGAN,startPos);
+            EventRelay.RaiseEvent(EVENT_TYPE.BEGAN, startPos);
         }
         if (Input.GetMouseButton(0))
         {
@@ -30,8 +37,8 @@ public class TouchController : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             FinaldirectionVector = startPos - currentPosition;
-           
-            EventRelay.RaiseEvent(EVENT_TYPE.ENDED,FinaldirectionVector);
+
+            EventRelay.RaiseEvent(EVENT_TYPE.ENDED, FinaldirectionVector);
         }
 
 
@@ -67,6 +74,5 @@ public class TouchController : MonoBehaviour
 
         }
 #endif
-
     }
 }

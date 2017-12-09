@@ -5,9 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/Defense/BlueDefense.unity
-    guid: a92980f93a96ab44cbdd3e02f5053047
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/Attack/Attack.unity
     guid: 55705374d55783e41a3955c30dfcc672
