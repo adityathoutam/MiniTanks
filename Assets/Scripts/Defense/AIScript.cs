@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class AIScript : MonoBehaviour
-{   
+{
     public GameObject TriPrefab;
     public GameObject CirclePrefab;
-    Vector3 CircleTarget;
-    Vector3 TriangleTarget;
-  
+    float speed = 1f;
 
     GameObject GreenTriangle1;
     GameObject BrownTriangle1;
@@ -21,209 +20,218 @@ public class AIScript : MonoBehaviour
     GameObject OrangeCircle1;
     GameObject PinkCircle1;
 
+    public Transform Map;
+    public Transform GreenMap;
+    public Transform BrownMap;
+    public Transform BlueMap;
+    public Transform OrangeMap;
+    public Transform PinkMap;
 
-    #region CreatingInstances
-    private GameObject CreateTriangleInstances(Transform SpawnPosition)
-    {
-        Vector3 position = SpawnPosition.position;
-        GameObject TriangleInstance = Instantiate(TriPrefab, position,Quaternion.identity);
-        return TriangleInstance;
-       
-    }
-    private GameObject CreateCircleInstances(Transform SpawnPosition)
-    {
-        Vector3 position = SpawnPosition.position;
-        GameObject  CircleInstance = Instantiate(CirclePrefab, position, Quaternion.identity);
-        return CircleInstance;
-    }
-#endregion
+    public GameObject cam;
 
+    private void Start()
+    {
+        GreenTanksCreate();
+        BrownTanksCreate();
+        //OrangeTanksCreate();
+        //BlueTanksCreate();
+        // PinkTanksCreate();
+        SetActiveFalse();
+    }
     private void Update()
     {
-    #region Triangles
+
+        GreenTanksMove();
+        BrownTanksMove();
+        //OrangeTanksMove();
+        //BlueTanksMove();
+        // PinkTanksMove();
+
+        BoardEntry();
+    }
+    #region TanksCreateAndMove
+    void GreenTanksCreate()
+    {
         if (GreenTriangle1 == null)
         {
-            GreenTriangle1 = CreateTriangleInstances(GreenMapPoints._greenMapTriangle1[0]);  
+            GreenTriangle1 = Instantiate(TriPrefab);
+            GreenTriangle1.transform.position = GreenMapPoints._greenMapTriangle1[0].transform.position;
         }
-        TriangleMove(GreenTriangle1, GreenMapPoints._greenMapTriangle1[0], GreenMapPoints._greenMapTriangle1[1]);
-
-        if(BrownTriangle1 ==null)
-        {
-            BrownTriangle1 = CreateTriangleInstances(BrownMapPoints._brownMapTriangle1[0]);
-        }
-        TriangleMove(BrownTriangle1, BrownMapPoints._brownMapTriangle1[0], BrownMapPoints._brownMapTriangle1[0]);
-
-        //if(BlueTriangle1==null)
-        //{
-        //    BlueTriangle1 = CreateTriangleInstances(BlueMapPoints._blueMapTriangle1[0]);
-        //}
-        //TriangleMove(BlueTriangle1, BlueMapPoints._blueMapTriangle1[0], BlueMapPoints._blueMapTriangle1[1]);
-
-        //if(OrangeTriangle1==null)
-        //{
-        //    OrangeTriangle1= CreateTriangleInstances(OrangeMapPoints._orangeMapTriangle1[0]);
-        //}
-        //TriangleMove(OrangeTriangle1, OrangeMapPoints._orangeMapTriangle1[0], OrangeMapPoints._orangeMapTriangle1[1]);
-
-        //if(PinkTriangle1==null)
-        //{
-        //    PinkTriangle1 = CreateTriangleInstances(PinkMapPoints._pinkMapTriangle1[0]);
-        //}
-        //TriangleMove(PinkTriangle1, PinkMapPoints._pinkMapTriangle1[0], PinkMapPoints._pinkMapTriangle1[1]);
-        #endregion
-    #region Circles
+        
         if (GreenCircle1 == null)
         {
-            GreenCircle1 = CreateCircleInstances(GreenMapPoints._greenMapCircle1[0]);
+            GreenCircle1 = Instantiate(CirclePrefab);
+            GreenCircle1.transform.position = GreenMapPoints._greenMapCircle1[0].transform.position;
         }
-        CircleMove(GreenCircle1, GreenMapPoints._greenMapCircle1[0], GreenMapPoints._greenMapCircle1[1], GreenMapPoints._greenMapCircle1[2]);
 
+    }
+    void GreenTanksMove()
+    {
+        
+        GreenMapPoints.TriangleMove(speed, GreenTriangle1, GreenMapPoints._greenMapTriangle1[0], GreenMapPoints._greenMapTriangle1[1]);
+        GreenMapPoints.CircleMove(speed, GreenCircle1, GreenMapPoints._greenMapCircle1[0], GreenMapPoints._greenMapCircle1[1], GreenMapPoints._greenMapCircle1[2]);
+    }
+    void BrownTanksCreate()
+    {
+        if (BrownTriangle1 == null)
+        {
+            BrownTriangle1 = Instantiate(TriPrefab);
+            BrownTriangle1.transform.position = BrownMapPoints._brownMapTriangle1[0].transform.position;
+        }
         if (BrownCircle1 == null)
         {
-            BrownCircle1 = CreateCircleInstances(BrownMapPoints._brownMapCircle1[0]);
-        }
-        //CircleMove(BrownCircle1, BrownMapPoints._brownMapCircle1[0], BrownMapPoints._brownMapCircle1[1], BrownMapPoints._brownMapCircle1[2]);
-        //if (BlueCircle1 == null)
-        //{
-        //    BlueCircle1 = CreateCircleInstances(BlueMapPoints._blueMapCircle1[0]);
-        //}
-        //CircleMove(BlueCircle1, BlueMapPoints._blueMapCircle1[0], BlueMapPoints._blueMapCircle1[1], BlueMapPoints._blueMapCircle1[2]);
-
-        //if (OrangeCircle1 == null)
-        //{
-        //    OrangeCircle1 = CreateCircleInstances(OrangeMapPoints._orangeMapCircle1[0]);
-        //}
-        //CircleMove(OrangeCircle1, OrangeMapPoints._orangeMapCircle1[0], OrangeMapPoints._orangeMapCircle1[1], OrangeMapPoints._orangeMapCircle1[2]);
-
-        //if (PinkCircle1 == null)
-        //{
-        //    PinkCircle1 = CreateCircleInstances(PinkMapPoints._pinkMapCircle1[0]);
-        //}
-        //CircleMove(PinkCircle1, PinkMapPoints._pinkMapCircle1[0], PinkMapPoints._pinkMapCircle1[1], PinkMapPoints._pinkMapCircle1[2]);
-
-#endregion
-
-
-    }
-    #region MovingEnemies
-    void CircleMove(GameObject CircleInstance, Transform firstCirPoint, Transform SecondCirPoint, Transform ThirdCirPoint)
-    {
-        int speed = 15;
-        Vector3 firstpoint = firstCirPoint.position;
-        Vector3 secondpoint = SecondCirPoint.position;
-        Vector3 thirdpoint = ThirdCirPoint.position;
-        //AT FIRST THE TARGET IS SECOND POINT
-        if(CircleTarget == null)
-        {
-            CircleTarget = secondpoint;
-        }
-        Vector3 directionVector = (CircleTarget - CircleInstance.transform.position);
-        float angle = Mathf.Atan2(directionVector.x, directionVector.y) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.AngleAxis(-angle, Vector3.forward);
-        CircleInstance.transform.rotation = Quaternion.Lerp(CircleInstance.transform.rotation, rotation, 10 * Time.deltaTime);
-        CircleInstance.transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
-        if (Vector3.Distance(CircleInstance.transform.position, CircleTarget) < 0.2f)
-        {
-            int random = Random.Range(0, 2);
-            if (random == 0)
-            {
-                CircleTarget = thirdpoint;
-            }
-            if (random == 1)
-            {
-                CircleTarget = firstpoint;
-            }
-        }
-
-        if (Vector3.Distance(CircleInstance.transform.position, CircleTarget) < 0.2f)
-        {
-            int random = Random.Range(0, 2);
-            if (random == 0)
-            {
-                CircleTarget = firstpoint;
-            }
-            if (random == 1)
-            {
-                CircleTarget = secondpoint;
-            }
-        }
-
-        if (Vector3.Distance(CircleInstance.transform.position, CircleTarget) < 0.2f)
-        {
-            int random = Random.Range(0, 2);
-            if (random == 0)
-            {
-                CircleTarget = secondpoint;
-            }
-            if (random == 1)
-            {
-                CircleTarget = thirdpoint;
-            }
+            BrownCircle1 = Instantiate(CirclePrefab);
+            BrownCircle1.transform.position = BrownMapPoints._brownMapCircle1[0].transform.position;
         }
     }
-
-    void TriangleMove(GameObject triangleinstance, Transform firstpoint, Transform secondpoint)
+    void BrownTanksMove()
     {
-        float speed = 15f;
-        Vector3 uppoint = firstpoint.position;
-        Vector3 downpoint = secondpoint.position;
+        
+        BrownMapPoints.TriangleMove(speed, BrownTriangle1, BrownMapPoints._brownMapTriangle1[0], BrownMapPoints._brownMapTriangle1[1]);
+        BrownMapPoints.CircleMove(speed, BrownCircle1, BrownMapPoints._brownMapCircle1[0], BrownMapPoints._brownMapCircle1[1], BrownMapPoints._brownMapCircle1[2]);
 
-        if (TriangleTarget == null)
+    }
+    void OrangeTanksCreate()
+    {
+        if (OrangeTriangle1 == null)
         {
-            TriangleTarget = downpoint;
+            OrangeTriangle1 = Instantiate(TriPrefab);
+            OrangeTriangle1.transform.position = OrangeMapPoints._orangeMapTriangle1[0].transform.position;
+        }
+        if (OrangeCircle1 == null)
+        {
+            OrangeCircle1 = Instantiate(CirclePrefab);
+            OrangeCircle1.transform.position = OrangeMapPoints._orangeMapCircle1[0].transform.position;
+        }
+    }
+    void OrangeTanksMove()
+    {
+        OrangeMapPoints.TriangleMove(speed, OrangeTriangle1, OrangeMapPoints._orangeMapTriangle1[0], OrangeMapPoints._orangeMapTriangle1[1]);
+        OrangeMapPoints.CircleMove(speed, OrangeCircle1, OrangeMapPoints._orangeMapCircle1[0], OrangeMapPoints._orangeMapCircle1[1], OrangeMapPoints._orangeMapCircle1[2]);
+    }
+    void BlueTanksCreate()
+    {
+        if (BlueTriangle1 == null)
+        {
+            BlueTriangle1 = Instantiate(TriPrefab);
+            BlueTriangle1.transform.position = BlueMapPoints._blueMapTriangle1[0].transform.position;
+        }
+        BlueMapPoints.TriangleMove(speed, BlueTriangle1, BlueMapPoints._blueMapTriangle1[0], BlueMapPoints._blueMapTriangle1[1]);
+
+        if (BlueCircle1 == null)
+        {
+            BlueCircle1 = Instantiate(CirclePrefab);
+            BlueCircle1.transform.position = BlueMapPoints._blueMapCircle1[0].transform.position;
         }
 
-        Vector3 directionVector = (TriangleTarget - triangleinstance.transform.position);
-        float angle = Mathf.Atan2(directionVector.x, directionVector.y) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.AngleAxis(-angle, Vector3.forward);
-        triangleinstance.transform.rotation = Quaternion.Lerp(triangleinstance.transform.rotation, rotation, 10*Time.deltaTime);
-        triangleinstance.transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
-
-
-        if (Vector3.Distance(triangleinstance.transform.position, TriangleTarget) < 0.2f)
+        BlueMapPoints.CircleMove(speed, BlueCircle1, BlueMapPoints._blueMapCircle1[0], BlueMapPoints._blueMapCircle1[1], BlueMapPoints._blueMapCircle1[2]);
+    }
+    void BlueTanksMove()
+    {
+        BlueMapPoints.TriangleMove(speed, BlueTriangle1, BlueMapPoints._blueMapTriangle1[0], BlueMapPoints._blueMapTriangle1[1]);
+        BlueMapPoints.CircleMove(speed, BlueCircle1, BlueMapPoints._blueMapCircle1[0], BlueMapPoints._blueMapCircle1[1], BlueMapPoints._blueMapCircle1[2]);
+    }
+    void PinkTanksCreate()
+    {
+        if (PinkTriangle1 == null)
         {
-            TriangleTarget = uppoint;
+            PinkTriangle1 = Instantiate(TriPrefab);
+            PinkTriangle1.transform.position = PinkMapPoints._pinkMapTriangle1[0].transform.position;
         }
-        if (Vector3.Distance(triangleinstance.transform.position, TriangleTarget) < 0.2f)
+        PinkMapPoints.TriangleMove(speed, PinkTriangle1, PinkMapPoints._pinkMapTriangle1[0], PinkMapPoints._pinkMapTriangle1[1]);
+
+        if (PinkCircle1 == null)
         {
-            TriangleTarget = downpoint;
+            PinkCircle1 = Instantiate(CirclePrefab);
+            PinkCircle1.transform.position = PinkMapPoints._pinkMapCircle1[0].transform.position;
         }
 
+        PinkMapPoints.CircleMove(speed, PinkCircle1, PinkMapPoints._pinkMapCircle1[0], PinkMapPoints._pinkMapCircle1[1], PinkMapPoints._pinkMapCircle1[2]);
+    }
+    void PinkTanksMove()
+    {
+        PinkMapPoints.TriangleMove(speed, PinkTriangle1, PinkMapPoints._pinkMapTriangle1[0], PinkMapPoints._pinkMapTriangle1[1]);
+        PinkMapPoints.CircleMove(speed, PinkCircle1, PinkMapPoints._pinkMapCircle1[0], PinkMapPoints._pinkMapCircle1[1], PinkMapPoints._pinkMapCircle1[2]);
     }
     #endregion
 
 
-#region EnemyStatus
-    void EnemyStatus(string name,bool status)
+    #region KeyControlls
+    void SetActiveFalse()
     {
-        if (name == "Brown")
+
+        BrownCircle1.SetActive(false);
+        GreenCircle1.SetActive(false);
+        //OrangeCircle1.SetActive(false);
+        //PinkCircle1.SetActive(false);
+        // BlueCircle1.SetActive(false);
+
+
+        BrownTriangle1.SetActive(false);
+        GreenTriangle1.SetActive(false);
+        //OrangeTriangle1.SetActive(false);
+        //PinkTriangle1.SetActive(false);
+        //BlueTriangle1.SetActive(false);
+    }
+    void BoardEntry()
+    {
+        if (Input.GetKeyUp(KeyCode.E))
         {
-            BrownCircle1.SetActive(status);
-            BrownTriangle1.SetActive(status);
+            StartCoroutine(Focusing(cam.transform.position, BrownMap.transform.position));
+            SetActiveFalse();
+            BrownTriangle1.SetActive(true);
+            BrownCircle1.SetActive(true);
+
         }
-        if (name == "Green")
+
+        if (Input.GetKeyUp(KeyCode.D))
         {
-            GreenCircle1.SetActive(status);
-            GreenTriangle1.SetActive(status);
+            StartCoroutine(Focusing(cam.transform.position, BlueMap.transform.position));
+            SetActiveFalse();
+            BlueTriangle1.SetActive(true);
+            BlueCircle1.SetActive(true);
+
         }
-        if (name == "Pink")
+
+        if (Input.GetKeyUp(KeyCode.S))
         {
-            PinkCircle1.SetActive(status);
-            PinkTriangle1.SetActive(status);
+            StartCoroutine(Focusing(cam.transform.position, OrangeMap.transform.position));
+            SetActiveFalse();
+            OrangeTriangle1.SetActive(true);
+            OrangeCircle1.SetActive(true);
+
         }
-        if (name == "Orange")
+
+        if (Input.GetKeyUp(KeyCode.A))
         {
-            OrangeCircle1.SetActive(status);
-            OrangeTriangle1.SetActive(status);
+            StartCoroutine(Focusing(cam.transform.position, PinkMap.transform.position));
+            SetActiveFalse();
+            PinkTriangle1.SetActive(true);
+            PinkCircle1.SetActive(true);
+
         }
-        if (name == "Blue")
+
+        if (Input.GetKeyUp(KeyCode.W))
         {
-            BlueCircle1.SetActive(status);
-            BlueTriangle1.SetActive(status);
+            StartCoroutine(Focusing(cam.transform.position, GreenMap.transform.position));
+            SetActiveFalse();
+            GreenTriangle1.SetActive(true);
+            GreenCircle1.SetActive(true);
+
         }
     }
-#endregion
+    IEnumerator Focusing(Vector3 start, Vector3 target)
+    {
+        float t = 0;
+        while (t <= 1.5)
+        {
+            t += Time.deltaTime * (Time.timeScale / 0.5f);
+            Vector3 temp = Vector3.Lerp(start, target, t);
+            cam.transform.position = new Vector3(temp.x, temp.y, transform.position.z);
+            yield return null;
 
+        }
 
-
+    }
+    #endregion
 }

@@ -207,7 +207,7 @@ public class Bullet : MonoBehaviour
 
         for (int i = 0; i < numberOfPoints; i++)
         {
-            trajectorydots = (GameObject)Instantiate(trajectoryPointPrefab);
+            trajectorydots = Instantiate(trajectoryPointPrefab);
 
             trajectoryList.Add(trajectorydots);
             trajectoryList[i].SetActive(true);
