@@ -25,7 +25,7 @@ public class Bullet : MonoBehaviour
 
 
     private float power = 25f;
-    private int numberOfPoints = 30;
+    private int numberOfPoints = 15;
     public float transitionDuration = 0.5f;
 
     public GameObject camera1;
@@ -38,10 +38,11 @@ public class Bullet : MonoBehaviour
     private bool isFired = false;
     private int chances = 3;
     private bool ReadyToShoot = false;
-
+    public bool isEnemyTrajectoryisActive = false;
     void Awake()
     {
         CreateBall();
+        DisplayTrajectory();
     }
     private void Start()
     {
@@ -90,7 +91,7 @@ public class Bullet : MonoBehaviour
 
                 case EVENT_TYPE.MOVED:
 
-                    SetTrajectoryPath(ball.transform.position, (Vector3)data * power);
+                    PlayerTrajectoryPath(ball.transform.position, (Vector3)data * power);
 
 
                     break;
@@ -108,10 +109,16 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        // EnemyDisplayTrajectory();
-        DisplayTrajectory();
-        EnemyTrajectory();
        
+        
+        if (isEnemyTrajectoryisActive == false&&TouchController.PlayerReadyToShoot==false)
+        {
+            DisplayTrajectory();
+            EnemyTrajectory();
+
+            isEnemyTrajectoryisActive = true;
+        }
+        
         StartingCameraMovement();
         
 
@@ -180,7 +187,8 @@ public class Bullet : MonoBehaviour
 
 
     #region TRAJECTORY
-    public void SetTrajectoryPath(Vector3 startPos, Vector3 pVelocity)
+    //Player Trajectory Calculated 
+    public void PlayerTrajectoryPath(Vector3 startPos, Vector3 pVelocity)
     {
         float vel = Mathf.Sqrt((pVelocity.x * pVelocity.x) + (pVelocity.y * pVelocity.y));
 
@@ -201,6 +209,27 @@ public class Bullet : MonoBehaviour
             time += 0.1f;
         }
     }
+    //Enemy Trajectory Calculated
+    void EnemyTrajectory()
+    {
+        Vector3 p1 = Player.transform.position;
+        Vector3 p2 = bezierpoint.transform.position;
+        Vector3 p3 = Enemy.transform.position;
+
+        for (int i = 1; i < numberOfPoints + 1; i++)
+        {
+            float t = i / (float)numberOfPoints;
+            t = Mathf.Clamp01(t);
+            Vector3 part1 = Mathf.Pow(1 - t, 2) * p1;
+            Vector3 part2 = 2 * (1 - t) * t * p2;
+            Vector3 part3 = Mathf.Pow(t, 2) * p3;
+
+            Vector3 pos = part1 + part2 + part3;
+            trajectoryList[i - 1].transform.position = pos;
+        }
+
+    }
+    //Display Trajectory
     void DisplayTrajectory()
     {
         trajectoryList = new List<GameObject>();
@@ -214,7 +243,7 @@ public class Bullet : MonoBehaviour
         }
         
     }
-    
+    //Hide Trajectory
     void HideTrajectory()
     {
         for (int i = 0; i < numberOfPoints; i++)
@@ -225,28 +254,6 @@ public class Bullet : MonoBehaviour
     #endregion TRAJECTORY
 
     
-    void EnemyTrajectory()
-    {
-        for(int i=1;i<numberOfPoints+1;i++)
-        {
-            float t = i / (float)numberOfPoints;
-
-            Vector3 pos= GetQuadraticCurvePoint(Player.transform.position, bezierpoint.transform.position, Enemy.transform.position, t);
-            trajectoryList[i-1].transform.position = pos;
-        }
-        
-    }
-
-    public static Vector3 GetQuadraticCurvePoint(Vector3 p1, Vector3 p2, Vector3 p3, float t)
-    {
-        t = Mathf.Clamp01(t);
-
-        Vector3 part1 = Mathf.Pow(1 - t, 2) * p1;
-        Vector3 part2 = 2 * (1 - t) * t * p2;
-        Vector3 part3 = Mathf.Pow(t, 2) * p3;
-
-        return part1 + part2 + part3;
-    }
     void MoveWithPlayer1()
     {
 
