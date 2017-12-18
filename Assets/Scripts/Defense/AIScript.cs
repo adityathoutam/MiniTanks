@@ -33,9 +33,9 @@ public class AIScript : MonoBehaviour
     {
         GreenTanksCreate();
         BrownTanksCreate();
-        //OrangeTanksCreate();
-        //BlueTanksCreate();
-        // PinkTanksCreate();
+        OrangeTanksCreate();
+        BlueTanksCreate();
+        PinkTanksCreate();
         SetActiveFalse();
     }
     private void Update()
@@ -43,9 +43,9 @@ public class AIScript : MonoBehaviour
 
         GreenTanksMove();
         BrownTanksMove();
-        //OrangeTanksMove();
-        //BlueTanksMove();
-        // PinkTanksMove();
+        OrangeTanksMove();
+        BlueTanksMove();
+        PinkTanksMove();
 
         BoardEntry();
     }
@@ -162,16 +162,16 @@ public class AIScript : MonoBehaviour
 
         BrownCircle1.SetActive(false);
         GreenCircle1.SetActive(false);
-        //OrangeCircle1.SetActive(false);
-        //PinkCircle1.SetActive(false);
-        // BlueCircle1.SetActive(false);
+        OrangeCircle1.SetActive(false);
+        PinkCircle1.SetActive(false);
+        BlueCircle1.SetActive(false);
 
 
         BrownTriangle1.SetActive(false);
         GreenTriangle1.SetActive(false);
-        //OrangeTriangle1.SetActive(false);
-        //PinkTriangle1.SetActive(false);
-        //BlueTriangle1.SetActive(false);
+        OrangeTriangle1.SetActive(false);
+        PinkTriangle1.SetActive(false);
+        BlueTriangle1.SetActive(false);
     }
     void BoardEntry()
     {
@@ -181,7 +181,7 @@ public class AIScript : MonoBehaviour
             SetActiveFalse();
             BrownTriangle1.SetActive(true);
             BrownCircle1.SetActive(true);
-
+             
         }
 
         if (Input.GetKeyUp(KeyCode.D))

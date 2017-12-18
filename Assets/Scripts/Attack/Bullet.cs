@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
 {
     public List<EVENT_TYPE> eventsList;
     private List<GameObject> trajectoryList;
-   
+
 
 
     public GameObject OutOfBoundsPanel;
@@ -46,7 +46,7 @@ public class Bullet : MonoBehaviour
     }
     private void Start()
     {
-        NewGame = true;  
+        NewGame = true;
 
     }
     #region BALL
@@ -76,7 +76,7 @@ public class Bullet : MonoBehaviour
         EventRelay.OnEvent -= HandleEvent;
     }
 
-    
+
     void HandleEvent(EVENT_TYPE type, System.Object data)
     {
         if (eventsList.Contains(type))
@@ -84,9 +84,9 @@ public class Bullet : MonoBehaviour
             switch (type)
             {
                 case EVENT_TYPE.BEGAN:
-                    
-                        DisplayTrajectory();
-                    
+
+                    DisplayTrajectory();
+
                     break;
 
                 case EVENT_TYPE.MOVED:
@@ -96,10 +96,10 @@ public class Bullet : MonoBehaviour
 
                     break;
                 case EVENT_TYPE.ENDED:
-                    
-                        Fire((Vector3)data);
-                        isFired = true;
-                    
+
+                    Fire((Vector3)data);
+                    isFired = true;
+
 
                     break;
             }
@@ -109,27 +109,28 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-       
-        
-        if (isEnemyTrajectoryisActive == false&&TouchController.PlayerReadyToShoot==false)
-        {
-            DisplayTrajectory();
-            EnemyTrajectory();
+        TouchController.PlayerReadyToShoot = true;
+        MoveWithPlayer1();
 
-            isEnemyTrajectoryisActive = true;
-        }
-        
-        StartingCameraMovement();
-        
+        //if (isEnemyTrajectoryisActive == false&&TouchController.PlayerReadyToShoot==false)
+        //{
+        //    DisplayTrajectory();
+        //    EnemyTrajectory();
 
-        if(Input.GetKey(KeyCode.Space))
-        {
-            NewGame = true;
-        }
+        //    isEnemyTrajectoryisActive = true;
+        //}
+
+        //StartingCameraMovement();
+
+
+        //if(Input.GetKey(KeyCode.Space))
+        //{
+        //    NewGame = true;
+        //}
 
         #region PLAYER1_THROWS_OUT_OF_BOUNDS
 
-        if (ball.transform.position.x > 90 || ball.transform.position.y > 50)
+        if (ball.transform.position.x > 100 || ball.transform.position.y > 50)
         {
             ball.GetComponent<Rigidbody>().isKinematic = true;
             MoveWithPlayer1();
@@ -141,16 +142,16 @@ public class Bullet : MonoBehaviour
 
         }
 
-        if (ball.transform.position.x < -90 || ball.transform.position.y > 50)
+        if (ball.transform.position.x < -100 || ball.transform.position.y > 50)
         {
             ball.GetComponent<Rigidbody>().isKinematic = true;
             MoveWithPlayer1();
             chances--;
             Debug.Log("ONLY " + chances + " CHANCE/CHANCES LEFT");
-             
-                CameraInterpoleEnemyToPlayer();
+
+            CameraInterpoleEnemyToPlayer();
             isFired = true;
-               
+
         }
         #endregion PLAYER1_THROWS_OUT_OF_BOUNDS_RESET_TO_PLAYER1
         if (chances == -1)
@@ -161,7 +162,7 @@ public class Bullet : MonoBehaviour
 
     void CameraInterpolePlayerToEnemy()
     {
-         StartCoroutine(Transition(Player.transform.position, Enemy.transform.position));   
+        StartCoroutine(Transition(Player.transform.position, Enemy.transform.position));
     }
     void CameraInterpoleEnemyToPlayer()
     {
@@ -175,12 +176,12 @@ public class Bullet : MonoBehaviour
         {
             t += Time.deltaTime * (Time.timeScale / transitionDuration);
             Vector3 temp = Vector3.Lerp(startpos, endpos, t);
-           camera1.transform.position = new Vector3(temp.x, temp.y, camera1.transform.position.z);
+            camera1.transform.position = new Vector3(temp.x, temp.y, camera1.transform.position.z);
             yield return null;
 
         }
         Moving = false;
-        
+
     }
     #endregion CAMERA_PLAYER_CAMERA
 
@@ -241,7 +242,7 @@ public class Bullet : MonoBehaviour
             trajectoryList.Add(trajectorydots);
             trajectoryList[i].SetActive(true);
         }
-        
+
     }
     //Hide Trajectory
     void HideTrajectory()
@@ -253,7 +254,7 @@ public class Bullet : MonoBehaviour
     }
     #endregion TRAJECTORY
 
-    
+
     void MoveWithPlayer1()
     {
 
