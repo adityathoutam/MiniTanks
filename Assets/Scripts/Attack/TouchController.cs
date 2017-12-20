@@ -8,28 +8,27 @@ public class TouchController : MonoBehaviour
     private Vector3 currentPosition;
     private Vector3 directionVector;
     private Vector3 FinaldirectionVector;
+    private float speed = 5f;
 
     public GameObject PL1;
     public static bool PlayerReadyToShoot = false;
-    public static bool ReadyToShoot = false;
-    private int touchcount = 0;
 
+    private bool ReadyToShoot = false;
+  
 	void Update ()
     {
 
-        if (PlayerReadyToShoot == true)
+        if (PlayerReadyToShoot == true&& ReadyToShoot == true)
         {
+           
+                UserInput();
             
-           lol();
-           if(ReadyToShoot==true)
-            UserInput();
+            
         }
+        
 
     }
-    public void ReadyToShootFunction()
-    {
-        ReadyToShoot = true;
-    }
+   
     void UserInput()
     {
 
@@ -52,7 +51,7 @@ public class TouchController : MonoBehaviour
             FinaldirectionVector = startPos - currentPosition;
 
             EventRelay.RaiseEvent(EVENT_TYPE.ENDED, FinaldirectionVector);
-            ReadyToShoot = false;
+           
         }
        
         
@@ -90,16 +89,25 @@ public class TouchController : MonoBehaviour
         }
 #endif
     }
-    void lol()
+    public void RightButton()
     {
-        if (Input.GetMouseButton(0))
-        {
-            print(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            var wantedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        ReadyToShoot = false;
 
-            Vector3 newPos = new Vector3(Mathf.Clamp(wantedPos.x, -80f, -10f), 4f, 0f);
-
-            PL1.transform.position = newPos;
-        }
+        if (PL1.transform.position.x < -20f)
+            PL1.transform.Translate(new Vector3(speed, 0f, 0f));
     }
+    public void LeftButton()
+    {
+        ReadyToShoot = false;
+
+        if (PL1.transform.position.x > -85f)
+
+        PL1.transform.Translate(new Vector3(-speed, 0f, 0f));
+
+    }
+    public void ReadyToShootButton()
+    {
+        ReadyToShoot = true;
+    }
+
 }

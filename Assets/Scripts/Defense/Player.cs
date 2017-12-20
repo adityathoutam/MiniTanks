@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     {
         if(collision.gameObject.tag=="Enemy")
         {
+            Debug.Log("Entered");
             SceneManager.LoadScene("Attack");
         }
         

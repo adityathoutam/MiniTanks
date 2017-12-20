@@ -6,65 +6,57 @@ using UnityEditor.SceneManagement;
 
 public class Bullet : MonoBehaviour
 {
-    public List<EVENT_TYPE> eventsList;
+    public List<EVENT_TYPE> eventsList; 
     private List<GameObject> trajectoryList;
 
-
-
-    public GameObject OutOfBoundsPanel;
-    public GameObject WinPanel;
+    public GameObject BallPrefab;
+    public GameObject SpherePrefab;
+    public GameObject TransitCamera;
 
     public GameObject Player;
     public GameObject Enemy;
     public GameObject bezierpoint;
 
-
-    public GameObject BallPrefab;
-    public GameObject ball;
-    GameObject trajectorydots;
-
-
+    GameObject ball;
+ 
     private float power = 25f;
-    private int numberOfPoints = 15;
-    public float transitionDuration = 0.5f;
-
-    public GameObject camera1;
-    public GameObject trajectoryPointPrefab;
-
+    private int chances = 3;
+    
     private bool NewGame = false;
     private bool NewGameCam = false;
     private bool Moving = false;
 
-    private bool isFired = false;
-    private int chances = 3;
     private bool ReadyToShoot = false;
-    public bool isEnemyTrajectoryisActive = false;
+  
     void Awake()
     {
         CreateBall();
-        DisplayTrajectory();
-    }
-    private void Start()
-    {
+        CreateTrajectory();
         NewGame = true;
+        ball.transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y + 2.3f, Player.transform.position.z);
 
     }
-    #region BALL
-    private void CreateBall()
+    void CreateTrajectory()
+    {
+        trajectoryList = new List<GameObject>();
+
+        for (int i = 0; i < 15; i++)
+        {
+            GameObject SpherePrefabLocal = Instantiate(SpherePrefab);
+            trajectoryList.Add(SpherePrefabLocal);
+
+        }
+
+    }
+    void CreateBall()
     {
         ball = (GameObject)Instantiate(BallPrefab);
 
     }
     private void Fire(Vector3 directionVector)
     {
-        ball.GetComponent<Rigidbody>().AddForce(directionVector * power, ForceMode.Impulse);
-        isFired = true;
-        HideTrajectory();
-        CameraInterpolePlayerToEnemy();
+        ball.GetComponent<Rigidbody>().AddForce(directionVector * power, ForceMode.Impulse); 
     }
-
-
-    #endregion
 
     #region EVENT_SYSTEM
     void OnEnable()
@@ -75,8 +67,6 @@ public class Bullet : MonoBehaviour
     {
         EventRelay.OnEvent -= HandleEvent;
     }
-
-
     void HandleEvent(EVENT_TYPE type, System.Object data)
     {
         if (eventsList.Contains(type))
@@ -85,7 +75,7 @@ public class Bullet : MonoBehaviour
             {
                 case EVENT_TYPE.BEGAN:
 
-                    DisplayTrajectory();
+                    OnOffTrajectory(true);
 
                     break;
 
@@ -98,7 +88,9 @@ public class Bullet : MonoBehaviour
                 case EVENT_TYPE.ENDED:
 
                     Fire((Vector3)data);
-                    isFired = true;
+                    OnOffTrajectory(false);
+                    CameraInterpolePlayerToEnemy();
+
 
 
                     break;
@@ -109,24 +101,10 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
+        StartingCameraMovement();
         TouchController.PlayerReadyToShoot = true;
+
         MoveWithPlayer1();
-
-        //if (isEnemyTrajectoryisActive == false&&TouchController.PlayerReadyToShoot==false)
-        //{
-        //    DisplayTrajectory();
-        //    EnemyTrajectory();
-
-        //    isEnemyTrajectoryisActive = true;
-        //}
-
-        //StartingCameraMovement();
-
-
-        //if(Input.GetKey(KeyCode.Space))
-        //{
-        //    NewGame = true;
-        //}
 
         #region PLAYER1_THROWS_OUT_OF_BOUNDS
 
@@ -135,10 +113,10 @@ public class Bullet : MonoBehaviour
             ball.GetComponent<Rigidbody>().isKinematic = true;
             MoveWithPlayer1();
             chances--;
-            Debug.Log("ONLY " + chances + " CHANCE/CHANCES LEFT");
+            
 
             CameraInterpoleEnemyToPlayer();
-            isFired = true;
+
 
         }
 
@@ -147,10 +125,10 @@ public class Bullet : MonoBehaviour
             ball.GetComponent<Rigidbody>().isKinematic = true;
             MoveWithPlayer1();
             chances--;
-            Debug.Log("ONLY " + chances + " CHANCE/CHANCES LEFT");
+
 
             CameraInterpoleEnemyToPlayer();
-            isFired = true;
+            
 
         }
         #endregion PLAYER1_THROWS_OUT_OF_BOUNDS_RESET_TO_PLAYER1
@@ -174,9 +152,9 @@ public class Bullet : MonoBehaviour
         float t = 0f;
         while (t <= 1.5f)
         {
-            t += Time.deltaTime * (Time.timeScale / transitionDuration);
+            t += Time.deltaTime * (Time.timeScale / 5f);
             Vector3 temp = Vector3.Lerp(startpos, endpos, t);
-            camera1.transform.position = new Vector3(temp.x, temp.y, camera1.transform.position.z);
+            TransitCamera.transform.position = new Vector3(temp.x, temp.y, TransitCamera.transform.position.z);
             yield return null;
 
         }
@@ -188,7 +166,6 @@ public class Bullet : MonoBehaviour
 
 
     #region TRAJECTORY
-    //Player Trajectory Calculated 
     public void PlayerTrajectoryPath(Vector3 startPos, Vector3 pVelocity)
     {
         float vel = Mathf.Sqrt((pVelocity.x * pVelocity.x) + (pVelocity.y * pVelocity.y));
@@ -198,7 +175,7 @@ public class Bullet : MonoBehaviour
         float time = 0;
 
         time += 0.1f;
-        for (int i = 0; i < numberOfPoints; ++i)
+        for (int i = 0; i < 15; ++i)
         {
             float x = vel * time * Mathf.Cos(angle * Mathf.Deg2Rad);
             float y = vel * time * Mathf.Sin(angle * Mathf.Deg2Rad) - (9.8f * time * time / 2);
@@ -210,16 +187,15 @@ public class Bullet : MonoBehaviour
             time += 0.1f;
         }
     }
-    //Enemy Trajectory Calculated
     void EnemyTrajectory()
     {
         Vector3 p1 = Player.transform.position;
         Vector3 p2 = bezierpoint.transform.position;
         Vector3 p3 = Enemy.transform.position;
 
-        for (int i = 1; i < numberOfPoints + 1; i++)
+        for (int i = 1; i < 15 + 1; i++)
         {
-            float t = i / (float)numberOfPoints;
+            float t = i / (float)15;
             t = Mathf.Clamp01(t);
             Vector3 part1 = Mathf.Pow(1 - t, 2) * p1;
             Vector3 part2 = 2 * (1 - t) * t * p2;
@@ -230,26 +206,11 @@ public class Bullet : MonoBehaviour
         }
 
     }
-    //Display Trajectory
-    void DisplayTrajectory()
+    void OnOffTrajectory(bool value)
     {
-        trajectoryList = new List<GameObject>();
-
-        for (int i = 0; i < numberOfPoints; i++)
+        for(int i = 0; i<15;i++)
         {
-            trajectorydots = Instantiate(trajectoryPointPrefab);
-
-            trajectoryList.Add(trajectorydots);
-            trajectoryList[i].SetActive(true);
-        }
-
-    }
-    //Hide Trajectory
-    void HideTrajectory()
-    {
-        for (int i = 0; i < numberOfPoints; i++)
-        {
-            trajectoryList[i].SetActive(false);
+            trajectoryList[i].SetActive(value);
         }
     }
     #endregion TRAJECTORY
@@ -257,12 +218,7 @@ public class Bullet : MonoBehaviour
 
     void MoveWithPlayer1()
     {
-
-        ball.transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y + 2.3f, Player.transform.position.z);
-        ball.GetComponent<Rigidbody>().isKinematic = false;
         ball.transform.parent = Player.transform;
-
-
         if (Vector3.Distance(ball.transform.position, Player.transform.position) > 5)
         {
             ball.transform.parent = null;
