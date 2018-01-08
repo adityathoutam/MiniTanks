@@ -1234,7 +1234,6 @@ GameObject:
   - component: {fileID: 1805280476}
   - component: {fileID: 1805280477}
   - component: {fileID: 1805280479}
-  - component: {fileID: 1805280478}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1275,17 +1274,6 @@ MonoBehaviour:
   Player: {fileID: 710887522}
   Enemy: {fileID: 465749283}
   bezierpoint: {fileID: 135619504}
---- !u!114 &1805280478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1805280474}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a1592b16a428ae4d89ed26da99c811e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1805280479
 MonoBehaviour:
   m_ObjectHideFlags: 0

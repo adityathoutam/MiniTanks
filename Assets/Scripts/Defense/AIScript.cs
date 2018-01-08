@@ -6,7 +6,15 @@ public class AIScript : MonoBehaviour
 {
     public GameObject TriPrefab;
     public GameObject CirclePrefab;
+    public GameObject Player;
     float speed = 1f;
+
+    
+    public GameObject GreenCol;
+    public GameObject BrownCol;
+    public GameObject PinkCol;
+    //public GameObject BlueCol;
+    //public GameObject OrangeCol;
 
     GameObject GreenTriangle1;
     GameObject BrownTriangle1;
@@ -40,7 +48,6 @@ public class AIScript : MonoBehaviour
     }
     private void Update()
     {
-
         GreenTanksMove();
         BrownTanksMove();
         OrangeTanksMove();
@@ -175,6 +182,34 @@ public class AIScript : MonoBehaviour
     }
     void BoardEntry()
     {
+        if(Input.GetKey(KeyCode.RightArrow))
+        {
+            GreenCol.GetComponent<EdgeCollider2D>().enabled = false;
+            BrownCol.GetComponent<EdgeCollider2D>().enabled = false;
+
+        }
+        if(Vector3.Distance(BrownMap.position, Player.transform.position) <= 65)
+            {
+                GreenCol.GetComponent<EdgeCollider2D>().enabled = true;
+                BrownCol.GetComponent<EdgeCollider2D>().enabled = false;
+            }
+
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            BrownCol.GetComponent<EdgeCollider2D>().enabled = false;
+            PinkCol.GetComponent<EdgeCollider2D>().enabled = false;
+        }
+        if(Vector3.Distance(PinkMap.position,Player.transform.position)<63)
+        {
+            BrownCol.GetComponent<EdgeCollider2D>().enabled = true;
+            PinkCol.GetComponent<EdgeCollider2D>().enabled = true;
+        }
+
+        //if (Input.GetKey(KeyCode.DownArrow))
+        //{
+        //    PinkCol.GetComponent<EdgeCollider2D>().enabled = false;
+        //}
+
         if (Input.GetKeyUp(KeyCode.E))
         {
             StartCoroutine(Focusing(cam.transform.position, BrownMap.transform.position));
@@ -195,6 +230,7 @@ public class AIScript : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.S))
         {
+            
             StartCoroutine(Focusing(cam.transform.position, OrangeMap.transform.position));
             SetActiveFalse();
             OrangeTriangle1.SetActive(true);
@@ -213,11 +249,13 @@ public class AIScript : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.W))
         {
+           
+           
             StartCoroutine(Focusing(cam.transform.position, GreenMap.transform.position));
             SetActiveFalse();
             GreenTriangle1.SetActive(true);
             GreenCircle1.SetActive(true);
-
+           
         }
     }
     IEnumerator Focusing(Vector3 start, Vector3 target)
