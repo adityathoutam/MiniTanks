@@ -26,7 +26,7 @@ public class Bullet : MonoBehaviour
     private bool NewGameCam = false;
     private bool Moving = false;
 
-    private bool ReadyToShoot = false;
+  
   
     void Awake()
     {
@@ -101,8 +101,9 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
+       
         StartingCameraMovement();
-        TouchController.PlayerReadyToShoot = true;
+      
 
         MoveWithPlayer1();
 
@@ -150,7 +151,7 @@ public class Bullet : MonoBehaviour
     {
         Moving = true;
         float t = 0f;
-        while (t <= 1.5f)
+        while (t <= 1f)
         {
             t += Time.deltaTime * (Time.timeScale / 5f);
             Vector3 temp = Vector3.Lerp(startpos, endpos, t);

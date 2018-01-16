@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TouchController : MonoBehaviour
 {
@@ -11,52 +9,66 @@ public class TouchController : MonoBehaviour
     private float speed = 5f;
 
     public GameObject PL1;
-    public static bool PlayerReadyToShoot = false;
 
-    private bool ReadyToShoot = false;
-  
-	void Update ()
+    void Update()
     {
+        UserInput();
 
-        if (PlayerReadyToShoot == true&& ReadyToShoot == true)
-        {
-           
-                UserInput();
-            
-            
-        }
-        
 
     }
-   
+
     void UserInput()
     {
 
-        if (Input.GetMouseButtonDown(0))
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 100))
         {
-            startPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            EventRelay.RaiseEvent(EVENT_TYPE.BEGAN, startPos);
+            if (hit.collider.tag == "player1bool")
+            {
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    startPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                    EventRelay.RaiseEvent(EVENT_TYPE.BEGAN, startPos);
+                }
+                if (Input.GetMouseButton(0))
+                {
+                    currentPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                    directionVector = startPos - currentPosition;
+
+                    EventRelay.RaiseEvent(EVENT_TYPE.MOVED, directionVector);
+                }
+                if (Input.GetMouseButtonUp(0))
+                {
+                    FinaldirectionVector = startPos - currentPosition;
+
+                    EventRelay.RaiseEvent(EVENT_TYPE.ENDED, FinaldirectionVector);
+
+                }
+
+            }
+            else
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    LeftButton(true);
+                    RightButton(true);
+                }
+            }
+
         }
-        if (Input.GetMouseButton(0))
-        {
-            currentPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            directionVector = startPos - currentPosition;
 
-            EventRelay.RaiseEvent(EVENT_TYPE.MOVED, directionVector);
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            FinaldirectionVector = startPos - currentPosition;
 
-            EventRelay.RaiseEvent(EVENT_TYPE.ENDED, FinaldirectionVector);
-           
-        }
-       
-        
 
-#if UNITY_ANDROID
+
+
+        #if UNITY_ANDROID
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -64,8 +76,8 @@ public class TouchController : MonoBehaviour
             {
                 case TouchPhase.Began:
                     startPos = Camera.main.ScreenToWorldPoint(touch.position);
-                    
-                    EventRelay.RaiseEvent(EVENT_TYPE.BEGAN,startPos);
+
+                    EventRelay.RaiseEvent(EVENT_TYPE.BEGAN, startPos);
 
                     break;
 
@@ -74,10 +86,10 @@ public class TouchController : MonoBehaviour
 
                     directionVector = startPos - currentPosition;
 
-                    EventRelay.RaiseEvent(EVENT_TYPE.MOVED, directionVector);        
-                    
+                    EventRelay.RaiseEvent(EVENT_TYPE.MOVED, directionVector);
+
                     break;
-                
+
                 case TouchPhase.Ended:
                     directionVector = startPos - currentPosition;
 
@@ -87,27 +99,32 @@ public class TouchController : MonoBehaviour
             }
 
         }
-#endif
+            #endif
+
     }
-    public void RightButton()
+    public void RightButton(bool msg)
     {
-        ReadyToShoot = false;
-
-        if (PL1.transform.position.x < -20f)
-            PL1.transform.Translate(new Vector3(speed, 0f, 0f));
+        if (msg != false)
+        {
+            if (Input.GetMouseButton(0) && Input.mousePosition.x > Screen.width / 2)
+            {
+                if (PL1.transform.position.x < -20f)
+                    PL1.transform.Translate(new Vector3(speed, 0f, 0f));
+            }
+        }
     }
-    public void LeftButton()
+    public void LeftButton(bool msg)
+
     {
-        ReadyToShoot = false;
-
-        if (PL1.transform.position.x > -85f)
-
-        PL1.transform.Translate(new Vector3(-speed, 0f, 0f));
-
+        if (msg != false)
+        {
+            if (Input.GetMouseButton(0) && Input.mousePosition.x < Screen.width / 2)
+            {
+                if (PL1.transform.position.x > -85f)
+                    PL1.transform.Translate(new Vector3(-speed, 0f, 0f));
+            }
+        }
     }
-    public void ReadyToShootButton()
-    {
-        ReadyToShoot = true;
-    }
+
 
 }
