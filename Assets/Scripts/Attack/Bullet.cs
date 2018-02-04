@@ -17,6 +17,7 @@ public class Bullet : MonoBehaviour
     public GameObject Enemy;
     public GameObject bezierpoint;
 
+    GameObject Ball2;
     GameObject ball;
  
     private float power = 25f;
@@ -25,22 +26,24 @@ public class Bullet : MonoBehaviour
     private bool NewGame = false;
     private bool NewGameCam = false;
     private bool Moving = false;
-
+    bool In = false;
   
   
     void Awake()
     {
+        
         CreateBall();
         CreateTrajectory();
         NewGame = true;
         ball.transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y + 2.3f, Player.transform.position.z);
-
+        Ball2.transform.position = new Vector3(Enemy.transform.position.x, Enemy.transform.position.y + 2.3f, Enemy.transform.position.z);
+       // EnemyTrajectory();
     }
     void CreateTrajectory()
     {
         trajectoryList = new List<GameObject>();
 
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < 30; i++)
         {
             GameObject SpherePrefabLocal = Instantiate(SpherePrefab);
             trajectoryList.Add(SpherePrefabLocal);
@@ -51,7 +54,7 @@ public class Bullet : MonoBehaviour
     void CreateBall()
     {
         ball = (GameObject)Instantiate(BallPrefab);
-
+        Ball2 = (GameObject)Instantiate(BallPrefab);
     }
     private void Fire(Vector3 directionVector)
     {
@@ -101,10 +104,14 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-       
-        StartingCameraMovement();
-      
 
+        StartingCameraMovement();
+
+        
+           
+        StartCoroutine(EnemyPath());
+           
+        
         MoveWithPlayer1();
 
         #region PLAYER1_THROWS_OUT_OF_BOUNDS
@@ -176,7 +183,7 @@ public class Bullet : MonoBehaviour
         float time = 0;
 
         time += 0.1f;
-        for (int i = 0; i < 15; ++i)
+        for (int i = 0; i < 30; ++i)
         {
             float x = vel * time * Mathf.Cos(angle * Mathf.Deg2Rad);
             float y = vel * time * Mathf.Sin(angle * Mathf.Deg2Rad) - (9.8f * time * time / 2);
@@ -188,22 +195,76 @@ public class Bullet : MonoBehaviour
             time += 0.1f;
         }
     }
+    Vector3 dir;
+    IEnumerator EnemyPath()
+    {
+        int i=0;
+        
+
+        while(i<trajectoryList.Count-1)
+        {
+            Vector3 currentPos = trajectoryList[i].transform.position;
+            
+            Vector3 nextPos = trajectoryList[i+1].transform.position;
+            if (Vector3.Distance(Ball2.transform.position, nextPos) > 2.50f)
+            {
+                dir = nextPos - currentPos;
+                Ball2.GetComponent<Rigidbody>().velocity = (nextPos - currentPos)*2.0f;
+                
+            }
+
+            else
+            {
+
+                i++;
+
+            }
+            yield return null;
+        }
+
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawRay(Ball2.transform.position,dir);
+    }
+
     void EnemyTrajectory()
     {
-        Vector3 p1 = Player.transform.position;
-        Vector3 p2 = bezierpoint.transform.position;
-        Vector3 p3 = Enemy.transform.position;
+        Vector3 p1 = Enemy.transform.position; 
+        Vector3 p2r = bezierpoint.transform.position;
+        Vector3 p3r = Player.transform.position;
 
-        for (int i = 1; i < 15 + 1; i++)
+
+        float p2randry = Random.Range(15, 60);
+        float p3randrx = Random.Range(-15,0 );
+
+        Vector3 p2 = new Vector3(p2r.x, p2r.y + p2randry, p2r.z);
+        Vector3 p3r1 = new Vector3(p3r.x + p3randrx, p3r.y , p3r.z);
+        Vector3 p3 = new Vector3(p3r.x +p3randrx, p3r.y, p3r.z);
+
+
+
+        for (int i = 1; i < 30 + 1; i++)
         {
-            float t = i / (float)15;
+            float t = i / (float)30;
             t = Mathf.Clamp01(t);
             Vector3 part1 = Mathf.Pow(1 - t, 2) * p1;
             Vector3 part2 = 2 * (1 - t) * t * p2;
             Vector3 part3 = Mathf.Pow(t, 2) * p3;
+            Vector3 part4 = Mathf.Pow(t, 2) * p3r1;
 
-            Vector3 pos = part1 + part2 + part3;
-            trajectoryList[i - 1].transform.position = pos;
+            float randpos = Random.Range(0, 1);
+
+            if (randpos == 0)
+            {
+                Vector3 pos = part1 + part2 + part3;
+                trajectoryList[i - 1].transform.position = pos;
+            }
+            if (randpos == 1)
+            {
+                Vector3 pos1 = part1 + part2 + part4;
+                trajectoryList[i - 1].transform.position = pos1;
+            }
         }
 
     }

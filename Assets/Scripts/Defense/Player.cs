@@ -6,46 +6,76 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private Animation transport;
-  
+    public static bool Brownleft = false;
+    public static bool Pinkleft = false;
+    public static bool Blueleft = false;
+    public static bool Orangeleft = false;
+
 
     public float moveSpeed = 25f;
-    public AnimationClip move;
+
+    public GameObject Coin;
+
+    public Transform[] Spawnpoints;
+
+    Rigidbody2D rb;
+
+    
 
     void Start()
     {
-        transport = GetComponent<Animation>();
+        Instantiate(Coin);
+        Instantiate(Coin);
+        
         this.transform.position += VJHandler.InputDirection * moveSpeed;
+        rb = this.GetComponent<Rigidbody2D>();
     }
    
     void Update()
     {
-        if(Input.GetKey(KeyCode.Space))
+        rb.velocity = VJHandler.InputDirection*moveSpeed;
+        float angle = Mathf.Atan2(VJHandler.InputDirection.y, VJHandler.InputDirection.x) * Mathf.Rad2Deg;
+        this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag=="Bitcoin")
         {
-            transport.Play(move.name);
-        }
-        if(VJHandler.InputDirection!=Vector3.zero)
-        {
-            this.transform.position += VJHandler.InputDirection * moveSpeed;
-            float angle = Mathf.Atan2(VJHandler.InputDirection.y, VJHandler.InputDirection.x) * Mathf.Rad2Deg;
-            this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        }
-        if(this.transform.position == new Vector3(232,80,0))
-        {
-            this.transform.position = new Vector3(240, 80, 0);
+            int spawnPointIndex = Random.Range(0, Spawnpoints.Length);
+            collision.gameObject.transform.position = Spawnpoints[spawnPointIndex].position;
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("Entered");
-        //if(collision.gameObject.tag=="Enemy")
-        //{
-        //    Debug.Log("Entered");
-        //    SceneManager.LoadScene("Attack");
-        //}
+   
 
+    void TransformCoin()
+    {
+       
+        int spawnPointIndex = Random.Range(0, Spawnpoints.Length);
+        Coin.transform.position = Spawnpoints[spawnPointIndex].position;
+    }
+
+    
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("BrownDoor"))
+        {
+            Brownleft = true;
+        }
+        if (collision.gameObject.CompareTag("PinkDoor"))
+        {
+            Pinkleft = true;
+        }
+        if (collision.gameObject.CompareTag("BlueDoor"))
+        {
+            Blueleft = true;
+        }
+        if (collision.gameObject.CompareTag("OrangeDoor"))
+        {
+            Orangeleft = true;
+        }
     }
 
 }

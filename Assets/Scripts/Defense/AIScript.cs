@@ -6,15 +6,15 @@ public class AIScript : MonoBehaviour
 {
     public GameObject TriPrefab;
     public GameObject CirclePrefab;
-    public GameObject Player;
+    public GameObject player;
     float speed = 1f;
 
     
-    public GameObject GreenCol;
-    public GameObject BrownCol;
-    public GameObject PinkCol;
-    //public GameObject BlueCol;
-    //public GameObject OrangeCol;
+    public GameObject GreenToBrown;
+    public GameObject BrownToPink;
+    public GameObject PinkToBlue;
+    public GameObject BlueToOrange;
+    public GameObject OrangeToBlue;
 
     GameObject GreenTriangle1;
     GameObject BrownTriangle1;
@@ -163,6 +163,11 @@ public class AIScript : MonoBehaviour
     #endregion
 
 
+
+   
+
+
+
     #region KeyControlls
     void SetActiveFalse()
     {
@@ -184,31 +189,44 @@ public class AIScript : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.RightArrow))
         {
-            GreenCol.GetComponent<EdgeCollider2D>().enabled = false;
-            BrownCol.GetComponent<EdgeCollider2D>().enabled = false;
-
+            GreenToBrown.GetComponent<BoxCollider2D>().enabled = false;
         }
-        if(Vector3.Distance(BrownMap.position, Player.transform.position) <= 65)
-            {
-                GreenCol.GetComponent<EdgeCollider2D>().enabled = true;
-                BrownCol.GetComponent<EdgeCollider2D>().enabled = false;
-            }
+        if(Player.Brownleft==true)
+        {
+            GreenToBrown.GetComponent<BoxCollider2D>().enabled = true;
+        }
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            BrownCol.GetComponent<EdgeCollider2D>().enabled = false;
-            PinkCol.GetComponent<EdgeCollider2D>().enabled = false;
+            BrownToPink.GetComponent<BoxCollider2D>().enabled = false;
         }
-        if(Vector3.Distance(PinkMap.position,Player.transform.position)<63)
+        if (Player.Pinkleft == true)
         {
-            BrownCol.GetComponent<EdgeCollider2D>().enabled = true;
-            PinkCol.GetComponent<EdgeCollider2D>().enabled = true;
+            BrownToPink.GetComponent<BoxCollider2D>().enabled = true;
         }
 
-        //if (Input.GetKey(KeyCode.DownArrow))
-        //{
-        //    PinkCol.GetComponent<EdgeCollider2D>().enabled = false;
-        //}
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            PinkToBlue.GetComponent<BoxCollider2D>().enabled = false;
+        }
+        if (Player.Blueleft == true)
+        {
+            PinkToBlue.GetComponent<BoxCollider2D>().enabled = true;
+        }
+
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            BlueToOrange.GetComponent<BoxCollider2D>().enabled = false;
+        }
+        if (Player.Orangeleft == true)
+        {
+            BlueToOrange.GetComponent<BoxCollider2D>().enabled = true;
+        }
+
+        if (Input.GetKey(KeyCode.RightShift))
+        {
+            OrangeToBlue.GetComponent<BoxCollider2D>().enabled = false;
+        }
 
         if (Input.GetKeyUp(KeyCode.E))
         {
