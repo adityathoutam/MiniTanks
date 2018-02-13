@@ -14,7 +14,6 @@ public class TouchController : MonoBehaviour
     {
         UserInput();
 
-
     }
 
     void UserInput()
@@ -28,6 +27,7 @@ public class TouchController : MonoBehaviour
 
             if (hit.collider.tag == "player1bool")
             {
+                Debug.Log("LOL");
 
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -62,45 +62,6 @@ public class TouchController : MonoBehaviour
             }
 
         }
-
-
-
-
-
-
-        #if UNITY_ANDROID
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            switch (touch.phase)
-            {
-                case TouchPhase.Began:
-                    startPos = Camera.main.ScreenToWorldPoint(touch.position);
-
-                    EventRelay.RaiseEvent(EVENT_TYPE.BEGAN, startPos);
-
-                    break;
-
-                case TouchPhase.Moved:
-                    currentPosition = Camera.main.ScreenToWorldPoint(touch.position);
-
-                    directionVector = startPos - currentPosition;
-
-                    EventRelay.RaiseEvent(EVENT_TYPE.MOVED, directionVector);
-
-                    break;
-
-                case TouchPhase.Ended:
-                    directionVector = startPos - currentPosition;
-
-                    EventRelay.RaiseEvent(EVENT_TYPE.ENDED, directionVector);
-
-                    break;
-            }
-
-        }
-            #endif
-
     }
     public void RightButton(bool msg)
     {

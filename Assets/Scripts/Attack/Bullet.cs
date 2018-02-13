@@ -79,14 +79,9 @@ public class Bullet : MonoBehaviour
                 case EVENT_TYPE.BEGAN:
 
                     OnOffTrajectory(true);
-
                     break;
-
                 case EVENT_TYPE.MOVED:
-
                     PlayerTrajectoryPath(ball.transform.position, (Vector3)data * power);
-
-
                     break;
                 case EVENT_TYPE.ENDED:
 
@@ -105,7 +100,7 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
 
-        StartingCameraMovement();
+       // StartingCameraMovement();
 
         
            
@@ -209,38 +204,31 @@ public class Bullet : MonoBehaviour
             if (Vector3.Distance(Ball2.transform.position, nextPos) > 2.50f)
             {
                 dir = nextPos - currentPos;
-                Ball2.GetComponent<Rigidbody>().velocity = (nextPos - currentPos)*2.0f;
-                
+                Ball2.GetComponent<Rigidbody>().velocity = (nextPos - currentPos)*2.0f;  
             }
-
             else
             {
-
                 i++;
-
             }
             yield return null;
         }
 
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawRay(Ball2.transform.position,dir);
-    }
+   
 
     void EnemyTrajectory()
     {
-        Vector3 p1 = Enemy.transform.position; 
+        Vector3 p1 = Enemy.transform.position;
         Vector3 p2r = bezierpoint.transform.position;
         Vector3 p3r = Player.transform.position;
 
 
         float p2randry = Random.Range(15, 60);
-        float p3randrx = Random.Range(-15,0 );
+        float p3randrx = Random.Range(-15, 0);
 
         Vector3 p2 = new Vector3(p2r.x, p2r.y + p2randry, p2r.z);
-        Vector3 p3r1 = new Vector3(p3r.x + p3randrx, p3r.y , p3r.z);
-        Vector3 p3 = new Vector3(p3r.x +p3randrx, p3r.y, p3r.z);
+        Vector3 p3r1 = new Vector3(p3r.x + p3randrx, p3r.y, p3r.z);
+        Vector3 p3 = new Vector3(p3r.x + p3randrx, p3r.y, p3r.z);
 
 
 
@@ -270,7 +258,7 @@ public class Bullet : MonoBehaviour
     }
     void OnOffTrajectory(bool value)
     {
-        for(int i = 0; i<15;i++)
+        for (int i = 0; i < 15; i++)
         {
             trajectoryList[i].SetActive(value);
         }

@@ -7,6 +7,13 @@ public class AIScript : MonoBehaviour
     public GameObject TriPrefab;
     public GameObject CirclePrefab;
     public GameObject player;
+    public GameObject Bullets;
+    public Transform Gun;
+    public Transform endPoint;
+    private float InstantiateTimer = 2f;
+
+    GameObject go;
+
     float speed = 1f;
 
     
@@ -28,6 +35,18 @@ public class AIScript : MonoBehaviour
     GameObject OrangeCircle1;
     GameObject PinkCircle1;
 
+    GameObject GreenTriangle2;
+    GameObject BrownTriangle2;
+    GameObject BlueTriangle2;
+    GameObject OrangeTriangle2;
+    GameObject PinkTriangle2;
+
+    GameObject GreenCircle2;
+    GameObject BrownCircle2;
+    GameObject BlueCircle2;
+    GameObject OrangeCircle2;
+    GameObject PinkCircle2;
+
     public Transform Map;
     public Transform GreenMap;
     public Transform BrownMap;
@@ -39,23 +58,32 @@ public class AIScript : MonoBehaviour
 
     private void Start()
     {
-        GreenTanksCreate();
+       GreenTanksCreate();
         BrownTanksCreate();
         OrangeTanksCreate();
         BlueTanksCreate();
         PinkTanksCreate();
         SetActiveFalse();
+        go = Instantiate(Bullets, endPoint.position, Quaternion.identity);
+        go.transform.parent = player.transform;
     }
     private void Update()
     {
+      
+        float step = 250 * Time.deltaTime;
+        go.transform.position = Vector3.MoveTowards(go.transform.position, endPoint.position, step);
+        if (go.transform.position == endPoint.position)
+            go.transform.position = Gun.position;
+       
+      
         GreenTanksMove();
         BrownTanksMove();
         OrangeTanksMove();
         BlueTanksMove();
         PinkTanksMove();
-
         BoardEntry();
     }
+  
     #region TanksCreateAndMove
     void GreenTanksCreate()
     {
@@ -64,7 +92,19 @@ public class AIScript : MonoBehaviour
             GreenTriangle1 = Instantiate(TriPrefab);
             GreenTriangle1.transform.position = GreenMapPoints._greenMapTriangle1[0].transform.position;
         }
-        
+
+        if (GreenTriangle2 == null)
+        {
+            GreenTriangle2 = Instantiate(TriPrefab);
+            GreenTriangle2.transform.position = GreenMapPoints._greenMapTriangle1[0].transform.position;
+        }
+
+        if (GreenCircle2 == null)
+        {
+            GreenCircle2 = Instantiate(CirclePrefab);
+            GreenCircle2.transform.position = GreenMapPoints._greenMapCircle1[0].transform.position;
+        }
+
         if (GreenCircle1 == null)
         {
             GreenCircle1 = Instantiate(CirclePrefab);
@@ -72,12 +112,17 @@ public class AIScript : MonoBehaviour
         }
 
     }
-    void GreenTanksMove()
+        void GreenTanksMove()
     {
         
         GreenMapPoints.TriangleMove(speed, GreenTriangle1, GreenMapPoints._greenMapTriangle1[0], GreenMapPoints._greenMapTriangle1[1]);
         GreenMapPoints.CircleMove(speed, GreenCircle1, GreenMapPoints._greenMapCircle1[0], GreenMapPoints._greenMapCircle1[1], GreenMapPoints._greenMapCircle1[2]);
+
+        GreenMapPoints.TriangleMove(speed, GreenTriangle2, GreenMapPoints._greenMapTriangle1[0], GreenMapPoints._greenMapTriangle1[1]);
+        GreenMapPoints.CircleMove(speed, GreenCircle2, GreenMapPoints._greenMapCircle1[0], GreenMapPoints._greenMapCircle1[1], GreenMapPoints._greenMapCircle1[2]);
     }
+
+
     void BrownTanksCreate()
     {
         if (BrownTriangle1 == null)

@@ -608,7 +608,7 @@ PlayerSettings:
   facebookSdkVersion: 7.9.1
   apiCompatibilityLevel: 2
   cloudProjectId: af5aa709-df6a-43df-8fff-dffc2018a156
-  projectName: Catches
+  projectName: Mini Tanks
   organizationId: endlessdreams
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
