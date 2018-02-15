@@ -16,20 +16,14 @@ public class Player : MonoBehaviour
 
     public GameObject Coin;
 
-    int count = 0;
-    public GameObject Panel;
-
     public Transform[] Spawnpoints;
 
     Rigidbody2D rb;
-
-  
 
     
 
     void Start()
     {
-        Panel.SetActive(false);
         Instantiate(Coin);
         Instantiate(Coin);
         
@@ -53,21 +47,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "bullet")
-        {
-            Debug.Log("gg");
-            count += 1;
-            gameObject.transform.position = new Vector3(0, 0, 0);
-            if (count >= 3)
-            {
-                Time.timeScale = 0;
-                Panel.SetActive(true);
-
-            }
-        }
-    }
+   
 
     void TransformCoin()
     {
