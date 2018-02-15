@@ -27,12 +27,13 @@ public class Player : MonoBehaviour
         Instantiate(Coin);
         Instantiate(Coin);
         
-        this.transform.position += VJHandler.InputDirection * moveSpeed;
+        
         rb = this.GetComponent<Rigidbody2D>();
     }
    
     void Update()
     {
+        this.transform.position += VJHandler.InputDirection * moveSpeed;
         rb.velocity = VJHandler.InputDirection*moveSpeed;
         float angle = Mathf.Atan2(VJHandler.InputDirection.y, VJHandler.InputDirection.x) * Mathf.Rad2Deg;
         this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);

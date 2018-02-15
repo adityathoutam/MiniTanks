@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 public class Bullet : MonoBehaviour
 {
@@ -134,7 +134,7 @@ public class Bullet : MonoBehaviour
     }
     public void retrybutton()
     {
-        EditorSceneManager.LoadScene("Attack");
+        SceneManager.LoadScene("Attack");
     }
     public void Cheat()
     {
