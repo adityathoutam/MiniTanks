@@ -11,12 +11,14 @@ TagManager:
   - LeftGround
   - RightGround
   - actualball
-  - Enemy
   - Bitcoin
   - BrownDoor
   - PinkDoor
   - BlueDoor
   - OrangeDoor
+  - bullet
+  - TEnemy
+  - CEnemy
   layers:
   - Default
   - TransparentFX

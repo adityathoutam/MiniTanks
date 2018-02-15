@@ -7,12 +7,9 @@ public class AIScript : MonoBehaviour
     public GameObject TriPrefab;
     public GameObject CirclePrefab;
     public GameObject player;
-    public GameObject Bullets;
-    public Transform Gun;
-    public Transform endPoint;
-    private float InstantiateTimer = 2f;
+    
 
-    GameObject go;
+   
 
     float speed = 1f;
 
@@ -23,29 +20,29 @@ public class AIScript : MonoBehaviour
     public GameObject BlueToOrange;
     public GameObject OrangeToBlue;
 
-    GameObject GreenTriangle1;
-    GameObject BrownTriangle1;
-    GameObject BlueTriangle1;
-    GameObject OrangeTriangle1;
-    GameObject PinkTriangle1;
+    public static GameObject GreenTriangle1;
+    public static GameObject BrownTriangle1;
+    public static GameObject BlueTriangle1;
+    public static GameObject OrangeTriangle1;
+    public static GameObject PinkTriangle1;
 
-    GameObject GreenCircle1;
-    GameObject BrownCircle1;
-    GameObject BlueCircle1;
-    GameObject OrangeCircle1;
-    GameObject PinkCircle1;
+    public static GameObject GreenCircle1;
+    public static GameObject BrownCircle1;
+    public static GameObject BlueCircle1;
+    public static GameObject OrangeCircle1;
+    public static GameObject PinkCircle1;
 
-    GameObject GreenTriangle2;
-    GameObject BrownTriangle2;
-    GameObject BlueTriangle2;
-    GameObject OrangeTriangle2;
-    GameObject PinkTriangle2;
+    public static GameObject GreenTriangle2;
+    public static GameObject BrownTriangle2;
+    public static GameObject BlueTriangle2;
+    public static GameObject OrangeTriangle2;
+    public static GameObject PinkTriangle2;
 
-    GameObject GreenCircle2;
-    GameObject BrownCircle2;
-    GameObject BlueCircle2;
-    GameObject OrangeCircle2;
-    GameObject PinkCircle2;
+    public static GameObject GreenCircle2;
+    public static GameObject BrownCircle2;
+    public static GameObject BlueCircle2;
+    public static GameObject OrangeCircle2;
+    public static GameObject PinkCircle2;
 
     public Transform Map;
     public Transform GreenMap;
@@ -64,16 +61,14 @@ public class AIScript : MonoBehaviour
         BlueTanksCreate();
         PinkTanksCreate();
         SetActiveFalse();
-        go = Instantiate(Bullets, endPoint.position, Quaternion.identity);
-        go.transform.parent = player.transform;
+
+        GreenTriangle1.SetActive(true);
+        GreenCircle1.SetActive(true);
     }
     private void Update()
     {
       
-        float step = 250 * Time.deltaTime;
-        go.transform.position = Vector3.MoveTowards(go.transform.position, endPoint.position, step);
-        if (go.transform.position == endPoint.position)
-            go.transform.position = Gun.position;
+        
        
       
         GreenTanksMove();
@@ -93,17 +88,17 @@ public class AIScript : MonoBehaviour
             GreenTriangle1.transform.position = GreenMapPoints._greenMapTriangle1[0].transform.position;
         }
 
-        if (GreenTriangle2 == null)
-        {
-            GreenTriangle2 = Instantiate(TriPrefab);
-            GreenTriangle2.transform.position = GreenMapPoints._greenMapTriangle1[0].transform.position;
-        }
+        //if (GreenTriangle2 == null)
+        //{
+        //    GreenTriangle2 = Instantiate(TriPrefab);
+        //    GreenTriangle2.transform.position = GreenMapPoints._greenMapTriangle1[0].transform.position;
+        //}
 
-        if (GreenCircle2 == null)
-        {
-            GreenCircle2 = Instantiate(CirclePrefab);
-            GreenCircle2.transform.position = GreenMapPoints._greenMapCircle1[0].transform.position;
-        }
+        //if (GreenCircle2 == null)
+        //{
+        //    GreenCircle2 = Instantiate(CirclePrefab);
+        //    GreenCircle2.transform.position = GreenMapPoints._greenMapCircle1[0].transform.position;
+        //}
 
         if (GreenCircle1 == null)
         {
@@ -118,8 +113,8 @@ public class AIScript : MonoBehaviour
         GreenMapPoints.TriangleMove(speed, GreenTriangle1, GreenMapPoints._greenMapTriangle1[0], GreenMapPoints._greenMapTriangle1[1]);
         GreenMapPoints.CircleMove(speed, GreenCircle1, GreenMapPoints._greenMapCircle1[0], GreenMapPoints._greenMapCircle1[1], GreenMapPoints._greenMapCircle1[2]);
 
-        GreenMapPoints.TriangleMove(speed, GreenTriangle2, GreenMapPoints._greenMapTriangle1[0], GreenMapPoints._greenMapTriangle1[1]);
-        GreenMapPoints.CircleMove(speed, GreenCircle2, GreenMapPoints._greenMapCircle1[0], GreenMapPoints._greenMapCircle1[1], GreenMapPoints._greenMapCircle1[2]);
+        //GreenMapPoints.TriangleMove(speed, GreenTriangle2, GreenMapPoints._greenMapTriangle1[0], GreenMapPoints._greenMapTriangle1[1]);
+        //GreenMapPoints.CircleMove(speed, GreenCircle2, GreenMapPoints._greenMapCircle1[0], GreenMapPoints._greenMapCircle1[1], GreenMapPoints._greenMapCircle1[2]);
     }
 
 
@@ -316,8 +311,7 @@ public class AIScript : MonoBehaviour
            
             StartCoroutine(Focusing(cam.transform.position, GreenMap.transform.position));
             SetActiveFalse();
-            GreenTriangle1.SetActive(true);
-            GreenCircle1.SetActive(true);
+           
            
         }
     }

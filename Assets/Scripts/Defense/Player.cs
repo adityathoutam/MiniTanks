@@ -46,9 +46,25 @@ public class Player : MonoBehaviour
             int spawnPointIndex = Random.Range(0, Spawnpoints.Length);
             collision.gameObject.transform.position = Spawnpoints[spawnPointIndex].position;
         }
+
+        if(collision.gameObject.tag=="TEnemy")
+        {
+            SceneManager.LoadScene("Attack");
+            AIScript.GreenTriangle1.SetActive(false);
+
+        }
+        
+        
+        if (collision.gameObject.tag == "CEnemy")
+        {
+            SceneManager.LoadScene("Attack");
+
+            AIScript.GreenCircle1.SetActive(false);
+        }
+        
     }
 
-   
+
 
     void TransformCoin()
     {
