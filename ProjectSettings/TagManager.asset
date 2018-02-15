@@ -17,7 +17,6 @@ TagManager:
   - PinkDoor
   - BlueDoor
   - OrangeDoor
-  - bullet
   layers:
   - Default
   - TransparentFX

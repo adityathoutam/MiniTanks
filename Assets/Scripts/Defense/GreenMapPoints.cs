@@ -12,9 +12,16 @@ public class GreenMapPoints : MonoBehaviour
     public GameObject Triangle1_Point1;
     public GameObject Triangle1_Point2;
 
+    public GameObject Triangle2_Point1;
+    public GameObject Triangle2_Point2;
+
     public GameObject Circle1_Point1;
     public GameObject Circle1_Point2;
     public GameObject Circle1_Point3;
+
+    public GameObject Circle2_Point1;
+    public GameObject Circle2_Point2;
+    public GameObject Circle2_Point3;
 
     static GameObject TriangleTarget;
     static GameObject CircleTarget;
@@ -32,6 +39,8 @@ public class GreenMapPoints : MonoBehaviour
         _greenMapTriangle1.Add(Triangle1_Point1);
         _greenMapTriangle1.Add(Triangle1_Point2);
 
+        _greenMapTriangle1.Add(Triangle2_Point1);
+        _greenMapTriangle1.Add(Triangle2_Point2);
     }
     private void GreenMapCircle1_PointsToList()
     {
@@ -39,6 +48,9 @@ public class GreenMapPoints : MonoBehaviour
         _greenMapCircle1.Add(Circle1_Point2);
         _greenMapCircle1.Add(Circle1_Point3);
 
+        _greenMapCircle1.Add(Circle2_Point1);
+        _greenMapCircle1.Add(Circle2_Point2);
+        _greenMapCircle1.Add(Circle2_Point3);
     }
     public static void TriangleMove(float speed, GameObject triangleinstance, GameObject firstpoint, GameObject secondpoint)
     {
