@@ -10,7 +10,7 @@ public class AIScript : MonoBehaviour
     public GameObject Bullets;
     public Transform Gun;
     public Transform endPoint;
-    private float InstantiateTimer = 2f;
+
 
     GameObject go;
 
@@ -93,17 +93,8 @@ public class AIScript : MonoBehaviour
             GreenTriangle1.transform.position = GreenMapPoints._greenMapTriangle1[0].transform.position;
         }
 
-        if (GreenTriangle2 == null)
-        {
-            GreenTriangle2 = Instantiate(TriPrefab);
-            GreenTriangle2.transform.position = GreenMapPoints._greenMapTriangle1[0].transform.position;
-        }
 
-        if (GreenCircle2 == null)
-        {
-            GreenCircle2 = Instantiate(CirclePrefab);
-            GreenCircle2.transform.position = GreenMapPoints._greenMapCircle1[0].transform.position;
-        }
+       
 
         if (GreenCircle1 == null)
         {
@@ -118,8 +109,7 @@ public class AIScript : MonoBehaviour
         GreenMapPoints.TriangleMove(speed, GreenTriangle1, GreenMapPoints._greenMapTriangle1[0], GreenMapPoints._greenMapTriangle1[1]);
         GreenMapPoints.CircleMove(speed, GreenCircle1, GreenMapPoints._greenMapCircle1[0], GreenMapPoints._greenMapCircle1[1], GreenMapPoints._greenMapCircle1[2]);
 
-        GreenMapPoints.TriangleMove(speed, GreenTriangle2, GreenMapPoints._greenMapTriangle1[0], GreenMapPoints._greenMapTriangle1[1]);
-        GreenMapPoints.CircleMove(speed, GreenCircle2, GreenMapPoints._greenMapCircle1[0], GreenMapPoints._greenMapCircle1[1], GreenMapPoints._greenMapCircle1[2]);
+        
     }
 
 
