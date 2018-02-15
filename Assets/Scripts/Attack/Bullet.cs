@@ -6,10 +6,19 @@ using UnityEditor.SceneManagement;
 
 public class Bullet : MonoBehaviour
 {
-    public List<EVENT_TYPE> eventsList; 
+    public GameObject winPanel;
+    public GameObject lostPanel;
+    public GameObject drawPanel;
+    public List<EVENT_TYPE> eventsList;
     private List<GameObject> trajectoryList;
+    public GameObject Nozzle;
+    public GameObject NozzlePoint;
+    public GameObject EnemyNozzle;
+    public GameObject EnemyNozzleStart;
+   
 
     public GameObject BallPrefab;
+    public GameObject BallPrefabEnemy;
     public GameObject SpherePrefab;
     public GameObject TransitCamera;
 
@@ -19,31 +28,39 @@ public class Bullet : MonoBehaviour
 
     GameObject Ball2;
     GameObject ball;
- 
-    private float power = 25f;
-    private int chances = 3;
-    
+
+    private float power = 200f;
+
+
     private bool NewGame = false;
     private bool NewGameCam = false;
     private bool Moving = false;
-    bool In = false;
-  
-  
+
+
+
+
     void Awake()
     {
-        
+        Time.timeScale = 1f;
+        TouchController.disabletouch = false;
+        winPanel.SetActive(false);
+        lostPanel.SetActive(false);
+        drawPanel.SetActive(false);
         CreateBall();
         CreateTrajectory();
         NewGame = true;
-        ball.transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y + 2.3f, Player.transform.position.z);
-        Ball2.transform.position = new Vector3(Enemy.transform.position.x, Enemy.transform.position.y + 2.3f, Enemy.transform.position.z);
-       // EnemyTrajectory();
+        ball.transform.position = NozzlePoint.transform.position;
+        ball.GetComponent<Renderer>().enabled = false;
+        Ball2.transform.position = EnemyNozzleStart.transform.position;
+        Ball2.GetComponent<Renderer>().enabled = false;
+        // Ball2.transform.position = new Vector3(Enemy.transform.position.x, Enemy.transform.position.y + 8f, Enemy.transform.position.z);
+
     }
     void CreateTrajectory()
     {
         trajectoryList = new List<GameObject>();
 
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < 15; i++)
         {
             GameObject SpherePrefabLocal = Instantiate(SpherePrefab);
             trajectoryList.Add(SpherePrefabLocal);
@@ -54,11 +71,14 @@ public class Bullet : MonoBehaviour
     void CreateBall()
     {
         ball = (GameObject)Instantiate(BallPrefab);
-        Ball2 = (GameObject)Instantiate(BallPrefab);
+        Ball2 = (GameObject)Instantiate(BallPrefabEnemy);
+
     }
     private void Fire(Vector3 directionVector)
     {
-        ball.GetComponent<Rigidbody>().AddForce(directionVector * power, ForceMode.Impulse); 
+        ball.GetComponent<Rigidbody>().AddForce(directionVector * power, ForceMode.Impulse);
+        ball.GetComponent<Rigidbody>().isKinematic = false;
+        ball.GetComponent<Rigidbody>().useGravity = true;
     }
 
     #region EVENT_SYSTEM
@@ -81,16 +101,20 @@ public class Bullet : MonoBehaviour
                     OnOffTrajectory(true);
                     break;
                 case EVENT_TYPE.MOVED:
+
+                    ball.transform.position = NozzlePoint.transform.position;
                     PlayerTrajectoryPath(ball.transform.position, (Vector3)data * power);
+
                     break;
                 case EVENT_TYPE.ENDED:
-
+                    ball.GetComponent<Renderer>().enabled = true;
+                    ball.GetComponent<Rigidbody>().isKinematic = false;
+                    TouchController.disabletouch=true;
                     Fire((Vector3)data);
                     OnOffTrajectory(false);
                     CameraInterpolePlayerToEnemy();
-
-
-
+                    StartCoroutine(PlayerToEnemy(Player.transform.position, Enemy.transform.position));
+                   
                     break;
             }
         }
@@ -99,46 +123,36 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
+        StartingCameraMovement();
+        Nozzle.transform.parent = Player.transform; 
+         MoveWithPlayer1();
 
-       // StartingCameraMovement();
-
-        
-           
-        StartCoroutine(EnemyPath());
-           
-        
-        MoveWithPlayer1();
-
-        #region PLAYER1_THROWS_OUT_OF_BOUNDS
-
-        if (ball.transform.position.x > 100 || ball.transform.position.y > 50)
-        {
-            ball.GetComponent<Rigidbody>().isKinematic = true;
-            MoveWithPlayer1();
-            chances--;
-            
-
-            CameraInterpoleEnemyToPlayer();
+       
+       
 
 
-        }
-
-        if (ball.transform.position.x < -100 || ball.transform.position.y > 50)
-        {
-            ball.GetComponent<Rigidbody>().isKinematic = true;
-            MoveWithPlayer1();
-            chances--;
-
-
-            CameraInterpoleEnemyToPlayer();
-            
-
-        }
-        #endregion PLAYER1_THROWS_OUT_OF_BOUNDS_RESET_TO_PLAYER1
-        if (chances == -1)
-            Debug.Log("OUT OF CHANCES");
     }
+    public void retrybutton()
+    {
+        EditorSceneManager.LoadScene("Attack");
+    }
+    public void Cheat()
+    {
+        TouchController.disabletouch = false;
 
+    }
+    void EnemyTurn()
+    {
+        
+            OnOffTrajectory(true);
+            EnemyTrajectory();
+        
+    }
+    void PlayerTurn()
+    {
+        OnOffTrajectory(true);
+        CameraInterpoleEnemyToPlayer();
+    }
     #region CAMERA_PLAYER_CAMERA
 
     void CameraInterpolePlayerToEnemy()
@@ -147,7 +161,9 @@ public class Bullet : MonoBehaviour
     }
     void CameraInterpoleEnemyToPlayer()
     {
+       
         StartCoroutine(Transition(Enemy.transform.position, Player.transform.position));
+
     }
     IEnumerator Transition(Vector3 startpos, Vector3 endpos)
     {
@@ -155,15 +171,51 @@ public class Bullet : MonoBehaviour
         float t = 0f;
         while (t <= 1f)
         {
-            t += Time.deltaTime * (Time.timeScale / 5f);
+            t += Time.deltaTime * (Time.timeScale / 4f);
             Vector3 temp = Vector3.Lerp(startpos, endpos, t);
-            TransitCamera.transform.position = new Vector3(temp.x, temp.y, TransitCamera.transform.position.z);
+            TransitCamera.transform.position = new Vector3(temp.x, temp.y + 25.0f, TransitCamera.transform.position.z);
             yield return null;
+        }
+        if (CheckColliderEnemy.player1bool == true)
+        {
+            
+            lostPanel.SetActive(true);
+            Time.timeScale = 0f;
+
+        }
+        if (CheckColliderEnemy.LeftGround == true)
+        {
+            if (lostPanel.activeInHierarchy == false)
+            {
+                drawPanel.SetActive(true);
+                Time.timeScale = 0f;
+            }
 
         }
         Moving = false;
+      
+    }
+    IEnumerator PlayerToEnemy(Vector3 startpos, Vector3 endpos)
+    {
+        float t = 0f;
+        while (t <= 1f)
+        {
+            t += Time.deltaTime * (Time.timeScale / 4f);
+            Vector3 temp = Vector3.Lerp(startpos, endpos, t);
+            TransitCamera.transform.position = new Vector3(temp.x, temp.y + 25.0f, TransitCamera.transform.position.z);
+            yield return null;
+        }
+        if (CheckCollider.player2bool == true)
+        {
+            winPanel.SetActive(true);
+            Time.timeScale = 0f;
+
+        }
+        EnemyTurn();
 
     }
+
+
     #endregion CAMERA_PLAYER_CAMERA
 
 
@@ -178,7 +230,7 @@ public class Bullet : MonoBehaviour
         float time = 0;
 
         time += 0.1f;
-        for (int i = 0; i < 30; ++i)
+        for (int i = 0; i < 15; ++i)
         {
             float x = vel * time * Mathf.Cos(angle * Mathf.Deg2Rad);
             float y = vel * time * Mathf.Sin(angle * Mathf.Deg2Rad) - (9.8f * time * time / 2);
@@ -187,31 +239,51 @@ public class Bullet : MonoBehaviour
 
             trajectoryList[i].transform.position = pos;
             trajectoryList[i].transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(pVelocity.y - (9.8f) * time, pVelocity.x) * Mathf.Rad2Deg);
+
+            
+            Vector3 difference = trajectoryList[0].transform.position- Nozzle.transform.position;
+            float rotationX = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
+
+            Nozzle.transform.rotation = Quaternion.Euler(-rotationX, 90f, 90f);
+
+
             time += 0.1f;
         }
     }
-    Vector3 dir;
     IEnumerator EnemyPath()
     {
         int i=0;
-        
+        PlayerTurn();
 
-        while(i<trajectoryList.Count-1)
+        while (i<trajectoryList.Count-1)
         {
             Vector3 currentPos = trajectoryList[i].transform.position;
             
             Vector3 nextPos = trajectoryList[i+1].transform.position;
-            if (Vector3.Distance(Ball2.transform.position, nextPos) > 2.50f)
+
+            Ball2.GetComponent<Rigidbody>().isKinematic = false;
+            Ball2.GetComponent<Rigidbody>().useGravity = true;
+
+            
+            Vector3 startpos = Ball2.transform.position;
+
+           
+
+            if (Vector3.Distance(Ball2.transform.position, nextPos) > 9f)
             {
-                dir = nextPos - currentPos;
-                Ball2.GetComponent<Rigidbody>().velocity = (nextPos - currentPos)*2.0f;  
+                Ball2.GetComponent<Renderer>().enabled = true;
+                Ball2.GetComponent<Rigidbody>().velocity = (nextPos - currentPos)*5f;
             }
             else
             {
                 i++;
             }
+            
+
             yield return null;
         }
+      
+
 
     }
    
@@ -232,9 +304,9 @@ public class Bullet : MonoBehaviour
 
 
 
-        for (int i = 1; i < 30 + 1; i++)
+        for (int i = 1; i < 15 + 1; i++)
         {
-            float t = i / (float)30;
+            float t = i / (float)15;
             t = Mathf.Clamp01(t);
             Vector3 part1 = Mathf.Pow(1 - t, 2) * p1;
             Vector3 part2 = 2 * (1 - t) * t * p2;
@@ -253,14 +325,20 @@ public class Bullet : MonoBehaviour
                 Vector3 pos1 = part1 + part2 + part4;
                 trajectoryList[i - 1].transform.position = pos1;
             }
+            
         }
+        Vector3 difference = EnemyNozzle.transform.position - trajectoryList[1].transform.position;
+        float rotationX = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
+
+        EnemyNozzle.transform.rotation = Quaternion.Euler(0f, 0f, rotationX);
+        StartCoroutine(EnemyPath());
 
     }
     void OnOffTrajectory(bool value)
     {
         for (int i = 0; i < 15; i++)
         {
-            trajectoryList[i].SetActive(value);
+            trajectoryList[i].GetComponent<Renderer>().enabled=(value);
         }
     }
     #endregion TRAJECTORY
@@ -269,32 +347,30 @@ public class Bullet : MonoBehaviour
     void MoveWithPlayer1()
     {
         ball.transform.parent = Player.transform;
-        if (Vector3.Distance(ball.transform.position, Player.transform.position) > 5)
+        if (Vector3.Distance(ball.transform.position, Player.transform.position) > 8)
         {
             ball.transform.parent = null;
-            CameraInterpolePlayerToEnemy();
-
         }
     }
     void StartingCameraMovement()
     {
         if (NewGame == true)
         {
-
             CameraInterpolePlayerToEnemy();
-
-            NewGame = false;
             NewGameCam = true;
-        }
+            NewGame = false;
+            
 
+        }
         if (NewGameCam == true && Moving == false)
         {
-
+            
             CameraInterpoleEnemyToPlayer();
             Moving = true;
             NewGameCam = false;
+            NewGame = false;
+
         }
     }
-
 
 }
