@@ -18,11 +18,13 @@ public class CheckCollider : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-
+        if (collision.gameObject.tag == "LeftGround")
+            LeftGround = true;
+        if (collision.gameObject.tag == "RightGround")
+            RightGround = true;
+        if (collision.gameObject.tag == "player1bool")
+            player1bool = true;
         if (collision.gameObject.tag == "player2bool")
-        {
             player2bool = true;
-            
-        }
     }
 }
