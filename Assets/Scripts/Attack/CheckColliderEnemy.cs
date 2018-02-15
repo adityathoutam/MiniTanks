@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckCollider : MonoBehaviour {
+public class CheckColliderEnemy : MonoBehaviour
+{
     public static bool LeftGround;
     public static bool RightGround;
     public static bool player1bool;
     public static bool player2bool;
 
 
-	void Start () {
+    void Start()
+    {
         LeftGround = false;
         RightGround = false;
         player1bool = false;
@@ -19,9 +21,14 @@ public class CheckCollider : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
 
-        if (collision.gameObject.tag == "player2bool")
+        if (collision.gameObject.tag == "player1bool")
         {
-            player2bool = true;
+            player1bool = true;
+           
+        }
+        if (collision.gameObject.tag == "LeftGround")
+        {
+            LeftGround = true;
             
         }
     }

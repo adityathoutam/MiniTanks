@@ -9,59 +9,65 @@ public class TouchController : MonoBehaviour
     private float speed = 5f;
 
     public GameObject PL1;
+    public static bool disabletouch =false;
 
     void Update()
     {
-        UserInput();
+        UserInput(disabletouch);
 
     }
 
-    void UserInput()
+    void UserInput(bool msg)
     {
 
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 100))
+        if (msg == false)
         {
 
-            if (hit.collider.tag == "player1bool")
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 100))
             {
-                Debug.Log("LOL");
 
-                if (Input.GetMouseButtonDown(0))
+                if (hit.collider.tag == "player1bool")
                 {
-                    startPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-                    EventRelay.RaiseEvent(EVENT_TYPE.BEGAN, startPos);
+
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        startPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                        EventRelay.RaiseEvent(EVENT_TYPE.BEGAN, startPos);
+                    }
+                    if (Input.GetMouseButton(0))
+                    {
+                        currentPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                        directionVector = startPos - currentPosition;
+
+                        EventRelay.RaiseEvent(EVENT_TYPE.MOVED, directionVector);
+                    }
+                    if (Input.GetMouseButtonUp(0))
+                    {
+                        FinaldirectionVector = startPos - currentPosition;
+
+                        EventRelay.RaiseEvent(EVENT_TYPE.ENDED, FinaldirectionVector);
+
+                    }
+
                 }
-                if (Input.GetMouseButton(0))
+                else
                 {
-                    currentPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-                    directionVector = startPos - currentPosition;
-
-                    EventRelay.RaiseEvent(EVENT_TYPE.MOVED, directionVector);
-                }
-                if (Input.GetMouseButtonUp(0))
-                {
-                    FinaldirectionVector = startPos - currentPosition;
-
-                    EventRelay.RaiseEvent(EVENT_TYPE.ENDED, FinaldirectionVector);
-
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        LeftButton(true);
+                        RightButton(true);
+                    }
                 }
 
             }
-            else
-            {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    LeftButton(true);
-                    RightButton(true);
-                }
-            }
-
         }
+
     }
     public void RightButton(bool msg)
     {
@@ -70,7 +76,7 @@ public class TouchController : MonoBehaviour
             if (Input.GetMouseButton(0) && Input.mousePosition.x > Screen.width / 2)
             {
                 if (PL1.transform.position.x < -20f)
-                    PL1.transform.Translate(new Vector3(speed, 0f, 0f));
+                    PL1.transform.Translate(new Vector3(0f, 0f, speed));
             }
         }
     }
@@ -82,7 +88,7 @@ public class TouchController : MonoBehaviour
             if (Input.GetMouseButton(0) && Input.mousePosition.x < Screen.width / 2)
             {
                 if (PL1.transform.position.x > -85f)
-                    PL1.transform.Translate(new Vector3(-speed, 0f, 0f));
+                    PL1.transform.Translate(new Vector3(0f, 0f, -speed));
             }
         }
     }
