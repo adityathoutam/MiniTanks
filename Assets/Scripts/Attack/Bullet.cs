@@ -210,6 +210,7 @@ public class Bullet : MonoBehaviour
             winPanel.SetActive(true);
             Time.timeScale = 0f;
             SceneManager.LoadScene("MainScene");
+           
         }
         EnemyTurn();
 

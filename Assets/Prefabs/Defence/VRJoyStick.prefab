@@ -39,7 +39,6 @@ GameObject:
   - component: {fileID: 224933012925421982}
   - component: {fileID: 222780818339487058}
   - component: {fileID: 114622114888981284}
-  - component: {fileID: 114637311544168620}
   m_Layer: 5
   m_Name: BackGroundImage
   m_TagString: Untagged
@@ -134,17 +133,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114637311544168620
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1855055385636636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fe7abada8967824cbe257b263d0b202, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114846300601983154
 MonoBehaviour:
   m_ObjectHideFlags: 1

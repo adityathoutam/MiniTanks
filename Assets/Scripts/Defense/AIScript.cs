@@ -14,11 +14,11 @@ public class AIScript : MonoBehaviour
     float speed = 1f;
 
     
-    public GameObject GreenToBrown;
-    public GameObject BrownToPink;
-    public GameObject PinkToBlue;
-    public GameObject BlueToOrange;
-    public GameObject OrangeToBlue;
+    public static GameObject GreenToBrown;
+    public static GameObject BrownToPink;
+    public static GameObject PinkToBlue;
+    public static GameObject BlueToOrange;
+    public static GameObject OrangeToBlue;
 
     public static GameObject GreenTriangle1;
     public static GameObject BrownTriangle1;
@@ -107,12 +107,14 @@ public class AIScript : MonoBehaviour
         }
 
     }
-        void GreenTanksMove()
+         void GreenTanksMove()
     {
         
-        GreenMapPoints.TriangleMove(speed, GreenTriangle1, GreenMapPoints._greenMapTriangle1[0], GreenMapPoints._greenMapTriangle1[1]);
-        GreenMapPoints.CircleMove(speed, GreenCircle1, GreenMapPoints._greenMapCircle1[0], GreenMapPoints._greenMapCircle1[1], GreenMapPoints._greenMapCircle1[2]);
-
+            GreenMapPoints.TriangleMove(speed, GreenTriangle1, GreenMapPoints._greenMapTriangle1[0], GreenMapPoints._greenMapTriangle1[1]);
+            GreenMapPoints.CircleMove(speed, GreenCircle1, GreenMapPoints._greenMapCircle1[0], GreenMapPoints._greenMapCircle1[1], GreenMapPoints._greenMapCircle1[2]);
+        
+       
+        
         //GreenMapPoints.TriangleMove(speed, GreenTriangle2, GreenMapPoints._greenMapTriangle1[0], GreenMapPoints._greenMapTriangle1[1]);
         //GreenMapPoints.CircleMove(speed, GreenCircle2, GreenMapPoints._greenMapCircle1[0], GreenMapPoints._greenMapCircle1[1], GreenMapPoints._greenMapCircle1[2]);
     }

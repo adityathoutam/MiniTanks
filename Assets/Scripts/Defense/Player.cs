@@ -50,7 +50,8 @@ public class Player : MonoBehaviour
         if(collision.gameObject.tag=="TEnemy")
         {
             SceneManager.LoadScene("Attack");
-            AIScript.GreenTriangle1.SetActive(false);
+            AIScript.GreenTriangle1.GetComponent<SpriteRenderer>().enabled = false;
+           // AIScript.GreenTriangle1.SetActive(false);
 
         }
         

@@ -8,7 +8,7 @@ public class Follow : MonoBehaviour {
     public GameObject Player;
 
 	void Start () {
-        Camera.main.orthographicSize = 49;
+        Camera.main.orthographicSize = 148;
         offset = transform.position - Player.transform.position;
     }
 	
