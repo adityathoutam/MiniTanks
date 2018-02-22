@@ -22,9 +22,11 @@ public class Bullet : MonoBehaviour
     public GameObject SpherePrefab;
     public GameObject TransitCamera;
 
-    public GameObject Player;
+    public GameObject player;
     public GameObject Enemy;
     public GameObject bezierpoint;
+
+    public static bool Done = false;
 
     GameObject Ball2;
     GameObject ball;
@@ -53,7 +55,7 @@ public class Bullet : MonoBehaviour
         ball.GetComponent<Renderer>().enabled = false;
         Ball2.transform.position = EnemyNozzleStart.transform.position;
         Ball2.GetComponent<Renderer>().enabled = false;
-        // Ball2.transform.position = new Vector3(Enemy.transform.position.x, Enemy.transform.position.y + 8f, Enemy.transform.position.z);
+      
 
     }
     void CreateTrajectory()
@@ -103,7 +105,7 @@ public class Bullet : MonoBehaviour
                 case EVENT_TYPE.MOVED:
 
                     ball.transform.position = NozzlePoint.transform.position;
-                    PlayerTrajectoryPath(ball.transform.position, (Vector3)data * power);
+                    playerTrajectoryPath(ball.transform.position, (Vector3)data * power);
 
                     break;
                 case EVENT_TYPE.ENDED:
@@ -112,8 +114,8 @@ public class Bullet : MonoBehaviour
                     TouchController.disabletouch=true;
                     Fire((Vector3)data);
                     OnOffTrajectory(false);
-                    CameraInterpolePlayerToEnemy();
-                    StartCoroutine(PlayerToEnemy(Player.transform.position, Enemy.transform.position));
+                    CameraInterpoleplayerToEnemy();
+                    StartCoroutine(playerToEnemy(player.transform.position, Enemy.transform.position));
                    
                     break;
             }
@@ -124,14 +126,13 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         StartingCameraMovement();
-        Nozzle.transform.parent = Player.transform; 
-         MoveWithPlayer1();
-
-       
-       
-
+        Nozzle.transform.parent = player.transform; 
+         MoveWithplayer1();
 
     }
+   
+
+
     public void retrybutton()
     {
         SceneManager.LoadScene("Attack");
@@ -148,21 +149,21 @@ public class Bullet : MonoBehaviour
             EnemyTrajectory();
         
     }
-    void PlayerTurn()
+    void playerTurn()
     {
         OnOffTrajectory(true);
-        CameraInterpoleEnemyToPlayer();
+        CameraInterpoleEnemyToplayer();
     }
-    #region CAMERA_PLAYER_CAMERA
+    #region CAMERA_player_CAMERA
 
-    void CameraInterpolePlayerToEnemy()
+    void CameraInterpoleplayerToEnemy()
     {
-        StartCoroutine(Transition(Player.transform.position, Enemy.transform.position));
+        StartCoroutine(Transition(player.transform.position, Enemy.transform.position));
     }
-    void CameraInterpoleEnemyToPlayer()
+    void CameraInterpoleEnemyToplayer()
     {
        
-        StartCoroutine(Transition(Enemy.transform.position, Player.transform.position));
+        StartCoroutine(Transition(Enemy.transform.position, player.transform.position));
 
     }
     IEnumerator Transition(Vector3 startpos, Vector3 endpos)
@@ -195,7 +196,7 @@ public class Bullet : MonoBehaviour
         Moving = false;
       
     }
-    IEnumerator PlayerToEnemy(Vector3 startpos, Vector3 endpos)
+    IEnumerator playerToEnemy(Vector3 startpos, Vector3 endpos)
     {
         float t = 0f;
         while (t <= 1f)
@@ -208,8 +209,12 @@ public class Bullet : MonoBehaviour
         if (CheckCollider.player2bool == true)
         {
             winPanel.SetActive(true);
-            Time.timeScale = 0f;
+
+
+            MainManager.isLevel2Success = true;
+           
             SceneManager.LoadScene("MainScene");
+           
            
         }
         EnemyTurn();
@@ -217,12 +222,12 @@ public class Bullet : MonoBehaviour
     }
 
 
-    #endregion CAMERA_PLAYER_CAMERA
+    #endregion CAMERA_player_CAMERA
 
 
 
     #region TRAJECTORY
-    public void PlayerTrajectoryPath(Vector3 startPos, Vector3 pVelocity)
+    public void playerTrajectoryPath(Vector3 startPos, Vector3 pVelocity)
     {
         float vel = Mathf.Sqrt((pVelocity.x * pVelocity.x) + (pVelocity.y * pVelocity.y));
 
@@ -254,7 +259,7 @@ public class Bullet : MonoBehaviour
     IEnumerator EnemyPath()
     {
         int i=0;
-        PlayerTurn();
+        playerTurn();
 
         while (i<trajectoryList.Count-1)
         {
@@ -293,7 +298,7 @@ public class Bullet : MonoBehaviour
     {
         Vector3 p1 = Enemy.transform.position;
         Vector3 p2r = bezierpoint.transform.position;
-        Vector3 p3r = Player.transform.position;
+        Vector3 p3r = player.transform.position;
 
 
         float p2randry = Random.Range(15, 60);
@@ -345,10 +350,10 @@ public class Bullet : MonoBehaviour
     #endregion TRAJECTORY
 
 
-    void MoveWithPlayer1()
+    void MoveWithplayer1()
     {
-        ball.transform.parent = Player.transform;
-        if (Vector3.Distance(ball.transform.position, Player.transform.position) > 8)
+        ball.transform.parent = player.transform;
+        if (Vector3.Distance(ball.transform.position, player.transform.position) > 8)
         {
             ball.transform.parent = null;
         }
@@ -357,7 +362,7 @@ public class Bullet : MonoBehaviour
     {
         if (NewGame == true)
         {
-            CameraInterpolePlayerToEnemy();
+            CameraInterpoleplayerToEnemy();
             NewGameCam = true;
             NewGame = false;
             
@@ -366,7 +371,7 @@ public class Bullet : MonoBehaviour
         if (NewGameCam == true && Moving == false)
         {
             
-            CameraInterpoleEnemyToPlayer();
+            CameraInterpoleEnemyToplayer();
             Moving = true;
             NewGameCam = false;
             NewGame = false;

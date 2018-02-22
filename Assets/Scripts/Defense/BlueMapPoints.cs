@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BlueMapPoints : MonoBehaviour {
-    public static List<GameObject> _blueMapCircle1 = new List<GameObject>();
-    public static List<GameObject> _blueMapTriangle1 = new List<GameObject>();
+    public List<GameObject> _blueMapCircle1 = new List<GameObject>();
+    public List<GameObject> _blueMapTriangle1 = new List<GameObject>();
 
     public GameObject Triangle1_Point1;
     public GameObject Triangle1_Point2;
@@ -33,7 +33,7 @@ public class BlueMapPoints : MonoBehaviour {
         _blueMapCircle1.Add(Circle1_Point2);
         _blueMapCircle1.Add(Circle1_Point3);
     }
-    public static void TriangleMove(float speed, GameObject triangleinstance, GameObject firstpoint, GameObject secondpoint)
+    public void TriangleMove(float speed, GameObject triangleinstance, GameObject firstpoint, GameObject secondpoint)
     {
 
 
@@ -67,7 +67,7 @@ public class BlueMapPoints : MonoBehaviour {
         }
 
     }
-    public static void CircleMove(float speed, GameObject CircleInstance, GameObject firstCirPoint, GameObject SecondCirPoint, GameObject ThirdCirPoint)
+    public void CircleMove(float speed, GameObject CircleInstance, GameObject firstCirPoint, GameObject SecondCirPoint, GameObject ThirdCirPoint)
     {
         speed = 1f;
         GameObject firstpoint = firstCirPoint;

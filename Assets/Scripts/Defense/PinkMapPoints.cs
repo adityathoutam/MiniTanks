@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PinkMapPoints : MonoBehaviour {
 
-    public static List<GameObject> _pinkMapCircle1 = new List<GameObject>();
-    public static List<GameObject> _pinkMapTriangle1 = new List<GameObject>();
+    public List<GameObject> _pinkMapCircle1 = new List<GameObject>();
+    public List<GameObject> _pinkMapTriangle1 = new List<GameObject>();
 
     public GameObject Triangle1_Point1;
     public GameObject Triangle1_Point2;
@@ -33,7 +33,7 @@ public class PinkMapPoints : MonoBehaviour {
         _pinkMapCircle1.Add(Circle1_Point2);
         _pinkMapCircle1.Add(Circle1_Point3);
     }
-    public static void TriangleMove(float speed, GameObject triangleinstance, GameObject firstpoint, GameObject secondpoint)
+    public void TriangleMove(float speed, GameObject triangleinstance, GameObject firstpoint, GameObject secondpoint)
     {
 
 
@@ -67,7 +67,7 @@ public class PinkMapPoints : MonoBehaviour {
         }
 
     }
-    public static void CircleMove(float speed, GameObject CircleInstance, GameObject firstCirPoint, GameObject SecondCirPoint, GameObject ThirdCirPoint)
+    public void CircleMove(float speed, GameObject CircleInstance, GameObject firstCirPoint, GameObject SecondCirPoint, GameObject ThirdCirPoint)
     {
         speed = 1f;
         GameObject firstpoint = firstCirPoint;

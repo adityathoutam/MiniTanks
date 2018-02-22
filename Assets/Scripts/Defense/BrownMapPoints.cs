@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BrownMapPoints : MonoBehaviour
 {
-    public static List<GameObject> _brownMapTriangle1 = new List<GameObject>();
-    public static List<GameObject> _brownMapCircle1 = new List<GameObject>();
+    public List<GameObject> _brownMapTriangle1 = new List<GameObject>();
+    public List<GameObject> _brownMapCircle1 = new List<GameObject>();
    
    
     public GameObject Triangle1_Point1;
@@ -35,7 +35,7 @@ public class BrownMapPoints : MonoBehaviour
          _brownMapCircle1.Add(Circle1_Point2);
          _brownMapCircle1.Add(Circle1_Point3);
     }
-    public static void TriangleMove(float speed, GameObject triangleinstance, GameObject firstpoint, GameObject secondpoint)
+    public void TriangleMove(float speed, GameObject triangleinstance, GameObject firstpoint, GameObject secondpoint)
     {
 
 
@@ -69,7 +69,7 @@ public class BrownMapPoints : MonoBehaviour
         }
 
     }
-    public static void CircleMove(float speed, GameObject CircleInstance, GameObject firstCirPoint, GameObject SecondCirPoint, GameObject ThirdCirPoint)
+    public void CircleMove(float speed, GameObject CircleInstance, GameObject firstCirPoint, GameObject SecondCirPoint, GameObject ThirdCirPoint)
     {
         speed = 1f;
         GameObject firstpoint = firstCirPoint;

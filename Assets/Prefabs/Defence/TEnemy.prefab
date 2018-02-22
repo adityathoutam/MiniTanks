@@ -65,7 +65,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4323716723427862}
   - component: {fileID: 212002381407409494}
-  - component: {fileID: 114163381288113506}
   m_Layer: 0
   m_Name: TEnemy
   m_TagString: Untagged
@@ -125,8 +124,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1317622902375558}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.9349309, w: -0.35482982}
+  m_LocalPosition: {x: 106.75614, y: -31.147314, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4058305894335306}
@@ -189,23 +188,6 @@ PolygonCollider2D:
       - {x: -0.06860504, y: -0.07169161}
       - {x: 0.0059412643, y: -0.20361526}
       - {x: 0.14446107, y: 0.039259914}
---- !u!114 &114163381288113506
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1317622902375558}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8b087804dc558f4f90e913609f7ca79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bullet: {fileID: 1881987859528200, guid: 38d993a6f27b0ac4199343442c3b54b8, type: 2}
-  Gun: {fileID: 0}
-  endpoint:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!212 &212002381407409494
 SpriteRenderer:
   m_ObjectHideFlags: 1

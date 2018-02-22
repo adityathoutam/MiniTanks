@@ -6,10 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    public static bool Brownleft = false;
-    public static bool Pinkleft = false;
-    public static bool Blueleft = false;
-    public static bool Orangeleft = false;
+
+
+    public GameObject endingPanel;
 
 
     public float moveSpeed = 25f;
@@ -20,24 +19,72 @@ public class Player : MonoBehaviour
 
     Rigidbody2D rb;
 
-    
+    public GameObject Passage1;
+    public GameObject Passage2;
+    public GameObject Passage3;
+    public GameObject Passage4;
+
+    int count = 0;
+
 
     void Start()
     {
+        endingPanel.SetActive(false);
         Instantiate(Coin);
         Instantiate(Coin);
-        
-        
+
+        this.transform.position = new Vector3(50, 100, 0);
         rb = this.GetComponent<Rigidbody2D>();
     }
    
     void Update()
     {
+
         this.transform.position += VJHandler.InputDirection * moveSpeed;
+       
         rb.velocity = VJHandler.InputDirection*moveSpeed;
         float angle = Mathf.Atan2(VJHandler.InputDirection.y, VJHandler.InputDirection.x) * Mathf.Rad2Deg;
         this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+        ChangeLevel();
     }
+    void ChangeLevel()
+    {
+        if (MainManager.Completed_1)
+        {
+            //BROWN
+                MainManager.Completed_1 = false;
+                Passage1.GetComponent<BoxCollider2D>().enabled = false;           
+        }
+        if(MainManager.Completed_2)
+        {
+            //PINK
+            MainManager.Completed_2 = false;
+            this.transform.position = new Vector3(550, 30, 0);
+            Passage2.GetComponent<BoxCollider2D>().enabled = false;
+        }
+        if (MainManager.Completed_3)
+        {
+            //BLUE
+            MainManager.Completed_3 = false;
+            this.transform.position = new Vector3(627, -109, 0);
+            Passage3.GetComponent<BoxCollider2D>().enabled = false;
+        }
+        if (MainManager.Completed_4)
+        {
+            //BLUE
+            MainManager.Completed_4 = false;
+            this.transform.position = new Vector3(580, -280, 0);
+            Passage4.GetComponent<BoxCollider2D>().enabled = false;
+        }
+        if(MainManager.Completed_5)
+        {
+            MainManager.Completed_5 = false;
+            endingPanel.SetActive(true);
+        }
+
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -49,18 +96,17 @@ public class Player : MonoBehaviour
 
         if(collision.gameObject.tag=="TEnemy")
         {
+
             SceneManager.LoadScene("Attack");
-            AIScript.GreenTriangle1.GetComponent<SpriteRenderer>().enabled = false;
-           // AIScript.GreenTriangle1.SetActive(false);
 
         }
         
         
         if (collision.gameObject.tag == "CEnemy")
         {
+            
             SceneManager.LoadScene("Attack");
 
-            AIScript.GreenCircle1.SetActive(false);
         }
         
     }
@@ -74,26 +120,5 @@ public class Player : MonoBehaviour
         Coin.transform.position = Spawnpoints[spawnPointIndex].position;
     }
 
-    
-
-    void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("BrownDoor"))
-        {
-            Brownleft = true;
-        }
-        if (collision.gameObject.CompareTag("PinkDoor"))
-        {
-            Pinkleft = true;
-        }
-        if (collision.gameObject.CompareTag("BlueDoor"))
-        {
-            Blueleft = true;
-        }
-        if (collision.gameObject.CompareTag("OrangeDoor"))
-        {
-            Orangeleft = true;
-        }
-    }
-
+   
 }
