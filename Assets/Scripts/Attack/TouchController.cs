@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-
 public class TouchController : MonoBehaviour
 {
     private Vector3 startPos;
@@ -7,54 +6,38 @@ public class TouchController : MonoBehaviour
     private Vector3 directionVector;
     private Vector3 FinaldirectionVector;
     private float speed = 5f;
-
     public GameObject PL1;
-    public static bool disabletouch =false;
-
+    public static bool disabletouch = false;
     void Update()
     {
         UserInput(disabletouch);
-
     }
-
     void UserInput(bool msg)
     {
-
         if (msg == false)
         {
-
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-
             if (Physics.Raycast(ray, out hit, 100))
             {
-
                 if (hit.collider.tag == "player1bool")
                 {
-
-
                     if (Input.GetMouseButtonDown(0))
                     {
                         startPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
                         EventRelay.RaiseEvent(EVENT_TYPE.BEGAN, startPos);
                     }
                     if (Input.GetMouseButton(0))
                     {
                         currentPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
                         directionVector = startPos - currentPosition;
-
                         EventRelay.RaiseEvent(EVENT_TYPE.MOVED, directionVector);
                     }
                     if (Input.GetMouseButtonUp(0))
                     {
                         FinaldirectionVector = startPos - currentPosition;
-
                         EventRelay.RaiseEvent(EVENT_TYPE.ENDED, FinaldirectionVector);
-
                     }
-
                 }
                 else
                 {
@@ -64,10 +47,8 @@ public class TouchController : MonoBehaviour
                         RightButton(true);
                     }
                 }
-
             }
         }
-
     }
     public void RightButton(bool msg)
     {
@@ -81,7 +62,6 @@ public class TouchController : MonoBehaviour
         }
     }
     public void LeftButton(bool msg)
-
     {
         if (msg != false)
         {
@@ -92,6 +72,4 @@ public class TouchController : MonoBehaviour
             }
         }
     }
-
-
 }

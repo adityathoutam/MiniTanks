@@ -1,15 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
 public class AIScript : MonoBehaviour
 {
     public GameObject TriPrefab;
     public GameObject CirclePrefab;
-  
     float speed = 1f;
 
-    
     public static GameObject GreenToBrown;
     public static GameObject BrownToPink;
     public static GameObject PinkToBlue;
@@ -28,16 +25,6 @@ public class AIScript : MonoBehaviour
     public static GameObject OrangeCircle1;
     public static GameObject PinkCircle1;
 
-  
-    public Transform Map;
-    public Transform GreenMap;
-    public Transform BrownMap;
-    public Transform BlueMap;
-    public Transform OrangeMap;
-    public Transform PinkMap;
-
-    public GameObject cam;
-
     public GreenMapPoints gmp;
     public BrownMapPoints bmp;
     public PinkMapPoints pmp;
@@ -46,18 +33,15 @@ public class AIScript : MonoBehaviour
 
     private void Start()
     {
-        
         GreenTanksCreate();
         BrownTanksCreate();
         OrangeTanksCreate();
         BlueTanksCreate();
         PinkTanksCreate();
-      
     }
     private void Update()
     {
         Destroyer();
-
         if (GreenTriangle1 != null && GreenCircle1 != null)
             GreenTanksMove();
         if (BrownTriangle1 != null && BrownCircle1 != null)
@@ -68,8 +52,6 @@ public class AIScript : MonoBehaviour
             BlueTanksMove();
         if (PinkTriangle1 != null && PinkCircle1 != null)
             PinkTanksMove();
-       
-        
     }
     void Destroyer()
     {
@@ -78,14 +60,14 @@ public class AIScript : MonoBehaviour
             Destroy(GreenTriangle1);
             Destroy(GreenCircle1);
         }
-        if(MainManager.Completed_2)
+        if (MainManager.Completed_2)
         {
             Destroy(GreenTriangle1);
             Destroy(GreenCircle1);
             Destroy(BrownTriangle1);
             Destroy(BrownCircle1);
         }
-        if(MainManager.Completed_3)
+        if (MainManager.Completed_3)
         {
             Destroy(GreenTriangle1);
             Destroy(GreenCircle1);
@@ -129,37 +111,26 @@ public class AIScript : MonoBehaviour
             Destroy(OrangeTriangle1);
             Destroy(OrangeCircle1);
         }
-
     }
-   
-    
     #region TanksCreateAndMove
     void GreenTanksCreate()
     {
-
         if (GreenTriangle1 == null)
         {
             GreenTriangle1 = Instantiate(TriPrefab);
             GreenTriangle1.transform.position = gmp._greenMapTriangle1[0].transform.position;
         }
-
-        
-
         if (GreenCircle1 == null)
         {
             GreenCircle1 = Instantiate(CirclePrefab);
             GreenCircle1.transform.position = gmp._greenMapCircle1[0].transform.position;
-           
         }
-
     }
     void GreenTanksMove()
-         {
-            
-            gmp.TriangleMove(speed, GreenTriangle1, gmp._greenMapTriangle1[0], gmp._greenMapTriangle1[1]);
-            gmp.CircleMove(speed, GreenCircle1, gmp._greenMapCircle1[0], gmp._greenMapCircle1[1], gmp._greenMapCircle1[2]);
-        
-         }
+    {
+        gmp.TriangleMove(speed, GreenTriangle1, gmp._greenMapTriangle1[0], gmp._greenMapTriangle1[1]);
+        gmp.CircleMove(speed, GreenCircle1, gmp._greenMapCircle1[0], gmp._greenMapCircle1[1], gmp._greenMapCircle1[2]);
+    }
     void BrownTanksCreate()
     {
         if (BrownTriangle1 == null)
@@ -175,10 +146,8 @@ public class AIScript : MonoBehaviour
     }
     void BrownTanksMove()
     {
-        
         bmp.TriangleMove(speed, BrownTriangle1, bmp._brownMapTriangle1[0], bmp._brownMapTriangle1[1]);
         bmp.CircleMove(speed, BrownCircle1, bmp._brownMapCircle1[0], bmp._brownMapCircle1[1], bmp._brownMapCircle1[2]);
-
     }
     void OrangeTanksCreate()
     {
@@ -206,13 +175,11 @@ public class AIScript : MonoBehaviour
             BlueTriangle1.transform.position = blmp._blueMapTriangle1[0].transform.position;
         }
         blmp.TriangleMove(speed, BlueTriangle1, blmp._blueMapTriangle1[0], blmp._blueMapTriangle1[1]);
-
         if (BlueCircle1 == null)
         {
             BlueCircle1 = Instantiate(CirclePrefab);
             BlueCircle1.transform.position = blmp._blueMapCircle1[0].transform.position;
         }
-
         blmp.CircleMove(speed, BlueCircle1, blmp._blueMapCircle1[0], blmp._blueMapCircle1[1], blmp._blueMapCircle1[2]);
     }
     void BlueTanksMove()
@@ -228,36 +195,17 @@ public class AIScript : MonoBehaviour
             PinkTriangle1.transform.position = pmp._pinkMapTriangle1[0].transform.position;
         }
         pmp.TriangleMove(speed, PinkTriangle1, pmp._pinkMapTriangle1[0], pmp._pinkMapTriangle1[1]);
-
         if (PinkCircle1 == null)
         {
             PinkCircle1 = Instantiate(CirclePrefab);
             PinkCircle1.transform.position = pmp._pinkMapCircle1[0].transform.position;
         }
-
         pmp.CircleMove(speed, PinkCircle1, pmp._pinkMapCircle1[0], pmp._pinkMapCircle1[1], pmp._pinkMapCircle1[2]);
     }
     void PinkTanksMove()
     {
         pmp.TriangleMove(speed, PinkTriangle1, pmp._pinkMapTriangle1[0], pmp._pinkMapTriangle1[1]);
         pmp.CircleMove(speed, PinkCircle1, pmp._pinkMapCircle1[0], pmp._pinkMapCircle1[1], pmp._pinkMapCircle1[2]);
-    }
-    #endregion
-
-    #region KeyControlls
-
-    IEnumerator Focusing(Vector3 start, Vector3 target)
-    {
-        float t = 0;
-        while (t <= 1.5)
-        {
-            t += Time.deltaTime * (Time.timeScale / 0.5f);
-            Vector3 temp = Vector3.Lerp(start, target, t);
-            cam.transform.position = new Vector3(temp.x, temp.y, transform.position.z);
-            yield return null;
-
-        }
-
     }
     #endregion
 }

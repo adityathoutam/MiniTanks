@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4595579038116568}
   - component: {fileID: 212069607810933962}
+  - component: {fileID: 114668738959306142}
   m_Layer: 0
   m_Name: BrownMap
   m_TagString: Untagged
@@ -36,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4174706538419094}
   - component: {fileID: 212448008439211804}
+  - component: {fileID: 114545601580057116}
   m_Layer: 0
   m_Name: GreenMap
   m_TagString: Untagged
@@ -67,6 +69,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4398912911833238}
   - component: {fileID: 212452070913622070}
+  - component: {fileID: 114108877440412388}
   m_Layer: 0
   m_Name: blueMap
   m_TagString: Untagged
@@ -83,6 +86,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4014999927997382}
   - component: {fileID: 212093369138665608}
+  - component: {fileID: 114362201809527898}
   m_Layer: 0
   m_Name: OrangeMap
   m_TagString: Untagged
@@ -99,6 +103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4838456163846496}
   - component: {fileID: 212226212921097828}
+  - component: {fileID: 114176203636035652}
   m_Layer: 0
   m_Name: PinkMap
   m_TagString: Untagged
@@ -117,7 +122,7 @@ Transform:
   m_LocalScale: {x: 70, y: 70, z: 1}
   m_Children: []
   m_Father: {fileID: 4554901036958474}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4174706538419094
 Transform:
@@ -130,7 +135,7 @@ Transform:
   m_LocalScale: {x: 70, y: 70, z: 1}
   m_Children: []
   m_Father: {fileID: 4554901036958474}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4398912911833238
 Transform:
@@ -143,7 +148,7 @@ Transform:
   m_LocalScale: {x: 70, y: 70, z: 0}
   m_Children: []
   m_Father: {fileID: 4554901036958474}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4554901036958474
 Transform:
@@ -155,11 +160,11 @@ Transform:
   m_LocalPosition: {x: 318, y: -158, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4174706538419094}
   - {fileID: 4595579038116568}
   - {fileID: 4838456163846496}
   - {fileID: 4398912911833238}
   - {fileID: 4014999927997382}
+  - {fileID: 4174706538419094}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -174,7 +179,7 @@ Transform:
   m_LocalScale: {x: 70, y: 70, z: 1}
   m_Children: []
   m_Father: {fileID: 4554901036958474}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4838456163846496
 Transform:
@@ -187,8 +192,98 @@ Transform:
   m_LocalScale: {x: 70, y: 70, z: 1}
   m_Children: []
   m_Father: {fileID: 4554901036958474}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114108877440412388
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1492317399422658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fc2413fed2cea94288f942097209ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _blueMapCircle1: []
+  _blueMapTriangle1: []
+  Triangle1_Point1: {fileID: 0}
+  Triangle1_Point2: {fileID: 0}
+  Circle1_Point1: {fileID: 0}
+  Circle1_Point2: {fileID: 0}
+  Circle1_Point3: {fileID: 0}
+--- !u!114 &114176203636035652
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1933405656022518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03173108a04f52248bc602678bdc0a4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pinkMapCircle1: []
+  _pinkMapTriangle1: []
+  Triangle1_Point1: {fileID: 0}
+  Triangle1_Point2: {fileID: 0}
+  Circle1_Point1: {fileID: 0}
+  Circle1_Point2: {fileID: 0}
+  Circle1_Point3: {fileID: 0}
+--- !u!114 &114362201809527898
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1545158787491020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f953c25135423f4cbf803ee42b40374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _orangeMapCircle1: []
+  _orangeMapTriangle1: []
+  Triangle1_Point1: {fileID: 0}
+  Triangle1_Point2: {fileID: 0}
+  Circle1_Point1: {fileID: 0}
+  Circle1_Point2: {fileID: 0}
+  Circle1_Point3: {fileID: 0}
+--- !u!114 &114545601580057116
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1326754690542134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d814c9d1279434d4b88f3471e488c249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _greenMapCircle1: []
+  _greenMapTriangle1: []
+  Triangle1_Point1: {fileID: 0}
+  Triangle1_Point2: {fileID: 0}
+  Circle1_Point1: {fileID: 0}
+  Circle1_Point2: {fileID: 0}
+  Circle1_Point3: {fileID: 0}
+--- !u!114 &114668738959306142
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1278033693233450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dd78d6109eab044faafe01343b52bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _brownMapTriangle1: []
+  _brownMapCircle1: []
+  Triangle1_Point1: {fileID: 0}
+  Triangle1_Point2: {fileID: 0}
+  Circle1_Point1: {fileID: 0}
+  Circle1_Point2: {fileID: 0}
+  Circle1_Point3: {fileID: 0}
 --- !u!212 &212069607810933962
 SpriteRenderer:
   m_ObjectHideFlags: 1

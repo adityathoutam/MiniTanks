@@ -6,5 +6,4 @@
     MOVED,
     BEGAN,
     ENDED
-    
 }
