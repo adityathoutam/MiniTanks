@@ -24,7 +24,6 @@ public class Bullet : MonoBehaviour
     public GameObject player;
     public GameObject Enemy;
     public GameObject bezierpoint;
-
     
 
     GameObject EnemyBullet;
@@ -104,7 +103,9 @@ public class Bullet : MonoBehaviour
             PlayerPathPos[j] = trajectoryList[j].transform.position;
         }
         PlayerBullet.GetComponent<Renderer>().enabled = true;
-        PlayerBullet.transform.DOPath(PlayerPathPos, 10f, PathType.Linear, PathMode.Full3D);
+        PlayerBullet.GetComponent<Rigidbody>().useGravity = true;
+        PlayerBullet.GetComponent<Rigidbody>().AddForce(directionVector * power, ForceMode.Impulse);
+       
 
     }
     #region EVENT_SYSTEM
@@ -159,24 +160,44 @@ public class Bullet : MonoBehaviour
                 EnemyTrajectoryPath();
             else
             {
-                winPanel.SetActive(true);
                 MainManager.isLevel2Success = true;
+                winPanel.SetActive(true);
                 SceneManager.LoadScene("MainScene");
             }
         } 
+        if(Input.GetKey(KeyCode.A))
+        {
+            MainManager.isLevel2Success = true;
+            winPanel.SetActive(true);
+            SceneManager.LoadScene("MainScene");
+
+        }
         if(EnemyFired==true && TransitCamera.transform.position.x<=player.transform.position.x)
         {
-            if (CheckColliderEnemy.player1bool==true)
+           
+            if (CheckColliderEnemy.player1bool == true)
             {
-                Debug.Log("LOST");
-
+                
                 lostPanel.SetActive(true);
+                Time.timeScale = 0f;
+                
             }
+            if (CheckColliderEnemy.LeftGround == true)
+            {
+                if(!lostPanel.activeInHierarchy)
+                drawPanel.SetActive(true);
+            }
+        }
+        if (CheckColliderEnemy.LeftGround||CheckColliderEnemy.player1bool)
+        {
+            Destroy(EnemyBullet);
+        }
+        if(CheckCollider.RightGround||CheckCollider.LeftGround||CheckCollider.player2bool)
+        {
+            Destroy(PlayerBullet);
         }
 
     }
-
-
     public void RetryButton()
     {
         SceneManager.LoadScene("Attack");
@@ -209,10 +230,12 @@ public class Bullet : MonoBehaviour
         Vector3 p1 = Enemy.transform.position;
         Vector3 p2r = bezierpoint.transform.position;
         Vector3 p3r = player.transform.position;
-        float p2randry = Random.Range(15, 60);
-        float p3randrx = Random.Range(-15, 0);
+        float p2randry = Random.Range(15, 45);
+        float p3randrx = Random.Range(-10, 10);
         Vector3 p2 = new Vector3(p2r.x, p2r.y + p2randry, p2r.z);
+
         Vector3 p3r1 = new Vector3(p3r.x + p3randrx, p3r.y, p3r.z);
+
         Vector3 p3 = new Vector3(p3r.x + p3randrx, p3r.y, p3r.z);
         for (int i = 1; i < 15 + 1; i++)
         {
@@ -257,11 +280,13 @@ public class Bullet : MonoBehaviour
         }
     }
     void BulletAttachToTank()
-    {
-        PlayerBullet.transform.parent = player.transform;
-        if (Vector3.Distance(PlayerBullet.transform.position, player.transform.position) > 8)
+    {  if (PlayerBullet != null)
         {
-            PlayerBullet.transform.parent = null;
+            PlayerBullet.transform.parent = player.transform;
+            if (Vector3.Distance(PlayerBullet.transform.position, player.transform.position) > 8)
+            {
+                PlayerBullet.transform.parent = null;
+            }
         }
     }
     void StartingCameraMovement()

@@ -41,31 +41,104 @@ public class AIScript : MonoBehaviour
     }
     private void Update()
     {
+        
         Destroyer();
-        if (GreenTriangle1 != null && GreenCircle1 != null)
-            GreenTanksMove();
-        if (BrownTriangle1 != null && BrownCircle1 != null)
-            BrownTanksMove();
-        if (OrangeTriangle1 != null && OrangeCircle1 != null)
-            OrangeTanksMove();
-        if (BlueTriangle1 != null && BlueCircle1 != null)
-            BlueTanksMove();
-        if (PinkTriangle1 != null && PinkCircle1 != null)
-            PinkTanksMove();
+
+        if (GreenTriangle1 != null)
+            GreenTriangleMove();
+        if (GreenCircle1 != null)
+            GreenCircleMove();
+        if (BrownTriangle1 != null)
+            BrownTriangleMove();
+        if (BrownCircle1 != null)
+            BrownCircleMove();
+        if (OrangeTriangle1 != null)
+            OrangeTriangleMove();
+        if (OrangeCircle1 != null)
+            OrangeCircleMove();
+        if (BlueTriangle1 != null)
+            BlueTriangleMove();
+        if (BlueCircle1 != null)
+            BlueCircleMove();
+        if (PinkTriangle1 != null)
+            PinkTriangleMove();
+        if (PinkCircle1 != null)
+            PinkCircleMove();
     }
     void Destroyer()
     {
+
+        if(MainManager.Completed_0_5)
+        {
+            if (MainManager.Triangle)
+            {
+                Destroy(GreenTriangle1);
+                MainManager.Triangle = false;
+            }
+            //OR
+            if (MainManager.Circle)
+            {
+                Destroy(GreenCircle1);
+                MainManager.Circle = false;
+            }
+            MainManager.Completed_0_5 = false;
+            
+        }
         if (MainManager.Completed_1)
+        {
+            Destroy(GreenCircle1);
+            //AND
+            Destroy(GreenTriangle1);
+            MainManager.Completed_1 = false;
+        }
+        if(MainManager.Completed_1_5)
         {
             Destroy(GreenTriangle1);
             Destroy(GreenCircle1);
+            // AND
+            if (MainManager.Triangle)
+            {
+                Destroy(BrownTriangle1);
+                MainManager.Triangle = false;
+            }
+            //OR
+            if (MainManager.Circle)
+            {
+                Destroy(BrownCircle1);
+                MainManager.Circle = false;
+            }
+
+            MainManager.Completed_1_5 = false;
+
         }
         if (MainManager.Completed_2)
         {
             Destroy(GreenTriangle1);
             Destroy(GreenCircle1);
+           // AND
             Destroy(BrownTriangle1);
             Destroy(BrownCircle1);
+            MainManager.Completed_2 = false;
+        }
+        if(MainManager.Completed_2_5)
+        {
+            Destroy(GreenTriangle1);
+            Destroy(GreenCircle1);
+            Destroy(BrownTriangle1);
+            Destroy(BrownCircle1);
+            //AND
+            if (MainManager.Triangle)
+            {
+                Destroy(PinkTriangle1);
+                MainManager.Triangle = false;
+            }
+            //OR
+            if (MainManager.Circle)
+            {
+                Destroy(PinkCircle1);
+                MainManager.Circle = false;
+            }
+            MainManager.Completed_2_5 = false;
         }
         if (MainManager.Completed_3)
         {
@@ -73,8 +146,32 @@ public class AIScript : MonoBehaviour
             Destroy(GreenCircle1);
             Destroy(BrownTriangle1);
             Destroy(BrownCircle1);
+           // AND
             Destroy(PinkTriangle1);
             Destroy(PinkCircle1);
+            MainManager.Completed_3 = false;
+        }
+        if(MainManager.Completed_3_5)
+        {
+            Destroy(GreenTriangle1);
+            Destroy(GreenCircle1);
+            Destroy(BrownTriangle1);
+            Destroy(BrownCircle1);
+            Destroy(PinkTriangle1);
+            Destroy(PinkCircle1);
+            if (MainManager.Triangle)
+            {
+                Destroy(BlueTriangle1);
+                MainManager.Triangle = false;
+            }
+            //OR
+            if (MainManager.Circle)
+            {
+                Destroy(BlueCircle1);
+                MainManager.Circle = false;
+            }
+            MainManager.Completed_3_5 = false;
+
         }
         if (MainManager.Completed_4)
         {
@@ -84,10 +181,12 @@ public class AIScript : MonoBehaviour
             Destroy(BrownCircle1);
             Destroy(PinkTriangle1);
             Destroy(PinkCircle1);
+            //AND
             Destroy(BlueTriangle1);
             Destroy(BlueCircle1);
+            MainManager.Completed_4 = false;
         }
-        if (MainManager.Completed_4)
+        if (MainManager.Completed_4_5)
         {
             Destroy(GreenTriangle1);
             Destroy(GreenCircle1);
@@ -97,6 +196,18 @@ public class AIScript : MonoBehaviour
             Destroy(PinkCircle1);
             Destroy(BlueTriangle1);
             Destroy(BlueCircle1);
+            if (MainManager.Triangle)
+            {
+                Destroy(OrangeTriangle1);
+                MainManager.Triangle = false;
+            }
+            //OR
+            if (MainManager.Circle)
+            {
+                Destroy(OrangeCircle1);
+                MainManager.Circle = false;
+            }
+            MainManager.Completed_4_5 = false;
         }
         if (MainManager.Completed_5)
         {
@@ -110,6 +221,7 @@ public class AIScript : MonoBehaviour
             Destroy(BlueCircle1);
             Destroy(OrangeTriangle1);
             Destroy(OrangeCircle1);
+            MainManager.Completed_5 = false;
         }
     }
     #region TanksCreateAndMove
@@ -126,9 +238,12 @@ public class AIScript : MonoBehaviour
             GreenCircle1.transform.position = gmp._greenMapCircle1[0].transform.position;
         }
     }
-    void GreenTanksMove()
+    void GreenTriangleMove()
     {
         gmp.TriangleMove(speed, GreenTriangle1, gmp._greenMapTriangle1[0], gmp._greenMapTriangle1[1]);
+    }
+    void GreenCircleMove()
+    { 
         gmp.CircleMove(speed, GreenCircle1, gmp._greenMapCircle1[0], gmp._greenMapCircle1[1], gmp._greenMapCircle1[2]);
     }
     void BrownTanksCreate()
@@ -144,9 +259,12 @@ public class AIScript : MonoBehaviour
             BrownCircle1.transform.position = bmp._brownMapCircle1[0].transform.position;
         }
     }
-    void BrownTanksMove()
+    void BrownTriangleMove()
     {
         bmp.TriangleMove(speed, BrownTriangle1, bmp._brownMapTriangle1[0], bmp._brownMapTriangle1[1]);
+    }
+    void BrownCircleMove()
+    { 
         bmp.CircleMove(speed, BrownCircle1, bmp._brownMapCircle1[0], bmp._brownMapCircle1[1], bmp._brownMapCircle1[2]);
     }
     void OrangeTanksCreate()
@@ -162,9 +280,12 @@ public class AIScript : MonoBehaviour
             OrangeCircle1.transform.position = omp._orangeMapCircle1[0].transform.position;
         }
     }
-    void OrangeTanksMove()
+    void OrangeTriangleMove()
     {
         omp.TriangleMove(speed, OrangeTriangle1, omp._orangeMapTriangle1[0], omp._orangeMapTriangle1[1]);
+    }
+    void OrangeCircleMove()
+    { 
         omp.CircleMove(speed, OrangeCircle1, omp._orangeMapCircle1[0], omp._orangeMapCircle1[1], omp._orangeMapCircle1[2]);
     }
     void BlueTanksCreate()
@@ -182,9 +303,12 @@ public class AIScript : MonoBehaviour
         }
         blmp.CircleMove(speed, BlueCircle1, blmp._blueMapCircle1[0], blmp._blueMapCircle1[1], blmp._blueMapCircle1[2]);
     }
-    void BlueTanksMove()
+    void BlueTriangleMove()
     {
         blmp.TriangleMove(speed, BlueTriangle1, blmp._blueMapTriangle1[0], blmp._blueMapTriangle1[1]);
+    }
+    void BlueCircleMove()
+    { 
         blmp.CircleMove(speed, BlueCircle1, blmp._blueMapCircle1[0], blmp._blueMapCircle1[1], blmp._blueMapCircle1[2]);
     }
     void PinkTanksCreate()
@@ -202,9 +326,12 @@ public class AIScript : MonoBehaviour
         }
         pmp.CircleMove(speed, PinkCircle1, pmp._pinkMapCircle1[0], pmp._pinkMapCircle1[1], pmp._pinkMapCircle1[2]);
     }
-    void PinkTanksMove()
+    void PinkTriangleMove()
     {
         pmp.TriangleMove(speed, PinkTriangle1, pmp._pinkMapTriangle1[0], pmp._pinkMapTriangle1[1]);
+    }
+    void PinkCircleMove()
+    { 
         pmp.CircleMove(speed, PinkCircle1, pmp._pinkMapCircle1[0], pmp._pinkMapCircle1[1], pmp._pinkMapCircle1[2]);
     }
     #endregion

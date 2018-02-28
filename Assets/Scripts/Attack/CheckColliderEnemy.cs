@@ -14,16 +14,19 @@ public class CheckColliderEnemy : MonoBehaviour
         player1bool = false;
         player2bool = false;
     }
-    private void OnCollisionEnter(Collision collision)
+   
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag == "player1bool")
+        if (other.gameObject.tag == "player1bool")
         {
-            Debug.Log("HIT");
             player1bool = true;
         }
-        if (collision.gameObject.tag == "LeftGround")
+        if (other.gameObject.tag == "LeftGround")
         {
+            
             LeftGround = true;
         }
+        
     }
 }

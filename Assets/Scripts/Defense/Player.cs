@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
         Instantiate(Coin);
         Coin.transform.position = new Vector3(0, 0, 0);
 
-        DontDestroyOnLoad(Score);
+        
 
 
         this.transform.position = new Vector3(50, 100, 0);
@@ -65,31 +65,31 @@ public class Player : MonoBehaviour
             Instantiate(Coin);
             Coin.transform.position = new Vector3(550, 30, 0);
             //BROWN
-            MainManager.Completed_1 = false;
+           
             Passage1.GetComponent<BoxCollider2D>().enabled = false;
 
             SpawnpointsParent.transform.position = new Vector3(550, 30, 0);
             Instantiate(Coin);
 
         }
-        if (MainManager.Completed_2)
+        if (MainManager.Completed_2||MainManager.Completed_1_5)
         {
             Instantiate(Coin);
             Coin.transform.position = new Vector3(627, -109, 0);
             //PINK
-            MainManager.Completed_2 = false;
+            
             this.transform.position = new Vector3(550, 30, 0);
             Passage2.GetComponent<BoxCollider2D>().enabled = false;
 
             SpawnpointsParent.transform.position = new Vector3(627, -109, 0);
             Instantiate(Coin);
         }
-        if (MainManager.Completed_3)
+        if (MainManager.Completed_3||MainManager.Completed_2_5)
         {
             Instantiate(Coin);
             Coin.transform.position = new Vector3(580, -280, 0);
             //BLUE
-            MainManager.Completed_3 = false;
+            
             this.transform.position = new Vector3(627, -109, 0);
             Passage3.GetComponent<BoxCollider2D>().enabled = false;
 
@@ -97,21 +97,21 @@ public class Player : MonoBehaviour
             Instantiate(Coin);
 
         }
-        if (MainManager.Completed_4)
+        if (MainManager.Completed_4||MainManager.Completed_3_5)
         {
             Instantiate(Coin);
             Coin.transform.position = new Vector3(-124, -290, 0);
             //ORANGE
-            MainManager.Completed_4 = false;
+           
             this.transform.position = new Vector3(580, -280, 0);
             Passage4.GetComponent<BoxCollider2D>().enabled = false;
 
             SpawnpointsParent.transform.position = new Vector3(-124, -290, 0);
             Instantiate(Coin);
         }
-        if (MainManager.Completed_5)
+        if (MainManager.Completed_5||MainManager.Completed_4_5)
         {
-            MainManager.Completed_5 = false;
+            
             endingPanel.SetActive(true);
         }
 
@@ -129,12 +129,12 @@ public class Player : MonoBehaviour
         }
         if (collision.gameObject.tag == "TEnemy")
         {
-            
+            MainManager.Triangle = true;
             SceneManager.LoadScene("Attack");
         }
         if (collision.gameObject.tag == "CEnemy")
         {
-           
+            MainManager.Circle = true;
             SceneManager.LoadScene("Attack");
         }
     }

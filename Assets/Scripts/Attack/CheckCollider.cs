@@ -20,5 +20,13 @@ public class CheckCollider : MonoBehaviour
         {
             player2bool = true;
         }
+        if(collision.gameObject.tag=="LeftGround")
+        {
+            LeftGround = true;
+        }
+        if(collision.gameObject.tag=="RightGround")
+        {
+            RightGround = true;
+        }
     }
 }
